@@ -31,6 +31,7 @@ For retro arcade lovers and parents on a tight budget, the Mini Arcade Station i
 
 ### 4. Design Sketches
 
+![sketch](image/README/sketch.png)
 
 ### 5. Software Requirements Specification (SRS)
 
