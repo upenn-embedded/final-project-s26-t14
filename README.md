@@ -46,7 +46,7 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 | SRS-02 | Use interrupts to handle button presses and game states (such as reloading, shooting, killing enemies, etc.)                                    |
 | SRS-03 | I2C communication will be used to communication data between the gun and the main arcade machine.                                               |
 | SRS-04 | The health of the player should be displayed through the LED indicators at the top of the arcade machine.                                       |
-| SRS-05 | The buzzer should play sounds when an action is performed (ie. shootinng).                                                                      |
+| SRS-05 | The buzzer should play sounds when an action is performed (ie. shooting).                                                                       |
 | SRS-06 | The score of the player should be displayed.                                                                                                    |
 
 ### 6. Hardware Requirements Specification (HRS)
