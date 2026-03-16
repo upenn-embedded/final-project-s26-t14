@@ -4,7 +4,7 @@
 
 **Team Number:** T14
 
-**Team Name:** 
+**Team Name:**
 
 | Team Member Name | Email Address           |
 | ---------------- | ----------------------- |
@@ -28,7 +28,6 @@ For retro arcade lovers and parents on a tight budget, the Mini Arcade Station i
 
 ### 3. System Block Diagram
 
-
 ### 4. Design Sketches
 
 ![sketch](image/README/sketch.png)
@@ -41,12 +40,14 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **5.2 Functionality**
 
-| ID     | Description                                                                                                                                                                                                              |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| SRS-01 | The IMU 3-axis acceleration will be measured with 16-bit depth every 100 milliseconds +/-10 milliseconds                                                                                                                 |
-| SRS-02 | The distance sensor shall operate and report values at least every .5 seconds.                                                                                                                                           |
-| SRS-03 | Upon non-nominal distance detected (i.e., the trap mechanism has changed at least 10 cm from the nominal range), the system shall be able to detect the change and alert the user in a timely manner (within 5 seconds). |
-| SRS-04 | Upon a request from the user, the system shall get an image from the internal camera and upload the image to the user system within 10s.                                                                                 |
+| ID     | Description                                                                                                                                     |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| SRS-01 | The IMU 3-axis acceleration will be used to measure the position of the gun and where the cursor should be on screen relative to gun position. |
+| SRS-02 | Use interrupts to handle button presses and game states (such as reloading, shooting, killing enemies, etc.)                                    |
+| SRS-03 | I2C communication will be used to communication data between the gun and the main arcade machine.                                               |
+| SRS-04 | The health of the player should be displayed through the LED indicators at the top of the arcade machine.                                       |
+| SRS-05 | The buzzer should play sounds when an action is performed (ie. shootinng).                                                                      |
+| SRS-06 | The score of the player should be displayed.                                                                                                    |
 
 ### 6. Hardware Requirements Specification (HRS)
 
