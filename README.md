@@ -46,8 +46,9 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 | SRS-02 | Use interrupts to handle button presses and game states (such as reloading, shooting, killing enemies, etc.)                                    |
 | SRS-03 | I2C communication will be used to communication data between the gun and the main arcade machine.                                               |
 | SRS-04 | The health of the player should be displayed through the LED indicators at the top of the arcade machine.                                       |
-| SRS-05 | The buzzer should play sounds when an action is performed (ie. shooting).                                                                       |
+| SRS-05 | The speaker should play sounds when an action is performed (ie. shooting).                                                                      |
 | SRS-06 | The score of the player should be displayed.                                                                                                    |
+| SRS-07 | A start menu that has the game name, instruction and the start button.                                                                          |
 
 ### 6. Hardware Requirements Specification (HRS)
 
@@ -68,6 +69,10 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 | HRS-07 | A on/off switch will be used to turn the arcade machine on/off                        |
 
 ### 7. Bill of Materials (BOM)
+
+[BOM Link](https://docs.google.com/spreadsheets/d/1xniE68PasfqvnCbOpnNLDcXMHkr8j9l92JOSKsI3_AM/edit?usp=sharing)
+
+The major components we will need are the main processor (the ATMega), an IMU, a screen, buttons, and LEDs.
 
 ### 8. Final Demo Goals
 
