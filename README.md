@@ -59,10 +59,20 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 | ID     | Description                                                                                                                        |
 | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+<<<<<<< HEAD
 | HRS-01 | A distance sensor shall be used for obstacle detection. The sensor shall detect obstacles at a maximum distance of at least 10 cm. |
 | HRS-02 | A noisemaker shall be inside the trap with a strength of at least 55 dB.                                                           |
 | HRS-03 | An electronic motor shall be used to reset the trap remotely and have a torque of 40 Nm in order to reset the trap mechanism.      |
 | HRS-04 | A camera sensor shall be used to capture images of the trap interior. The resolution shall be at least 480p.                       |
+=======
+| HRS-01 | ATmega328PB is the main microcontroller for this design.                              |
+| HRS-02 | The TFT display will be a 3.5" SPI-interfaced color LCD with a minimum resolution of 320x480 pixels and support for 16-bit color depth.                                               |
+| HRS-03 | The MPU-6050 IMU shall be powered at 3.3V and communicate with the gun ATmega328PB over I2C.                                                                                             |
+| HRS-04 | The trigger button shall be connected to external interrupt pin with internal pull-up resistor, producing falling edge signal detections.                                              |
+| HRS-05 | The speaker shall produce audible output at frequencies for sound effects, and game start & end indicator.                                                                           |
+| HRS-06 | Each LED shall illuminate when driven by GPIO pins through current limiting resistors.                                                                                       |
+| HRS-07 | A on/off switch will be used to turn the arcade machine on/off                        |
+>>>>>>> parent of 75ab81c (edited abbreviations for 5 & 6)
 
 ### 7. Bill of Materials (BOM)
 
