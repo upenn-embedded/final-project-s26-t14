@@ -57,6 +57,8 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **6.2 Functionality**
 
+| ID     | Description                                                                                                                                     |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | HRS-01 | ATmega328PB is the main microcontroller for this design.|
 | HRS-02 | The TFT display will be a 3.5" SPI-interfaced color LCD with a minimum resolution of 320x480 pixels and support for 16-bit color depth. |
 | HRS-03 | The MPU-6050 IMU shall be powered at 3.3V and communicate with the gun ATmega328PB over I2C. |
