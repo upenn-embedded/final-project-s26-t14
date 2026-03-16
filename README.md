@@ -83,20 +83,48 @@ TFT LCD: Thin-Film Transistor Liquid Crystal Display
 | HRS-04 | The trigger button shall be connected to external interrupt pin with internal pull-up resistor, producing falling edge signal detections. |
 | HRS-05 | The speaker shall produce audible output at frequencies for sound effects, and game start & end indicator.                                |
 | HRS-06 | Each LED shall illuminate when driven by GPIO pins through current limiting resistors.                                                    |
-| HRS-07 | A on/off switch will be used to turn the arcade machine on/off.                                                                            |
+| HRS-07 | A on/off switch will be used to turn the arcade machine on/off.                                                                           |
 
 ### 7. Bill of Materials (BOM)
 
+[Link to BOM](https://docs.google.com/spreadsheets/d/1xniE68PasfqvnCbOpnNLDcXMHkr8j9l92JOSKsI3_AM/edit?usp=sharing)
+
+TFT Display: Primary output display. SPI interface satisfies serial peripheral requirement. 320x480 provides adequate sprite resolution.
+
+IMU: 6-axis gyro + accelerometer. I2C interface. Used for 4-direction aim detection in gun prop.
+
+Speaker: Audio feedback on shot events.
+
+LED: 3 red LEDs for health bar, 1 green LED for power indicator. GPIO-driven.
+
+Button: Trigger button in gun prop.
+
+Switch: Turns machine on/off.
+
+Power Bank: Safe, portable power. Avoids LiPo battery restriction. Sufficient capacity for full demo session.
+
 ### 8. Final Demo Goals
+
+The demo is fully self-contained and requires only a standard table. No outdoor space, mounting infrastructure, or special environment is needed.
+
+Demo Flow
+
+1. Power on the cabinet via the USB power bank. The power LED illuminates green and the display shows the start screen.
+2. Pick up the gun prop. The game graphics appears on the TFT screen.
+3. Zombies begin spawning from the screen edges and advancing toward the center.
+4. Demonstrate aiming: tilt the gun up, down, left, and right. The crosshair moves accordingly.
+5. Pull the trigger to shoot a zombie. The speaker buzzes, the zombie is removed, and the score increments.
+6. Allow one zombie to approach the player. One health LED turns off.
+7. Allow all 3 zombies to pass. All LEDs extinguish and the Game Over screen appears.
 
 ### 9. Sprint Planning
 
-| Milestone  | Functionality Achieved | Distribution of Work |
-| ---------- | ---------------------- | -------------------- |
-| Sprint #1  |                        |                      |
-| Sprint #2  |                        |                      |
-| MVP Demo   |                        |                      |
-| Final Demo |                        |                      |
+| Milestone  | Functionality Achieved                                                                                                                              | Distribution of Work                             |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| Sprint #1  | - Fully implement electronics hardware, wire everything, 3D print turret.<br />- Begin implementing basic inputs & outputs (speaker, LED, buttons) | Hardware - All<br />3D print - Daniel & Yi Lu    |
+| Sprint #2  | - Connecting TFT screen to MCU, attaching IMU to turret and MCU<br />- Program starting screen and user sprite to TFT                               | TFT - Yi Lu<br />IMU - Daniel<br />Game - Amaris |
+| MVP Demo   | - Demonstrate button trigger outputs speaker sound, moving turret moves user crosshair                                                              | All                                              |
+| Final Demo | - Demonstrate working game (spawn player and zombies)<br />- Demonstrate laser cut casing with decorations                                          | All<br />Laser cutting - Daniel & Yi Lu          |
 
 **This is the end of the Project Proposal section. The remaining sections will be filled out based on the milestone schedule.**
 
