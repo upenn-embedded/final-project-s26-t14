@@ -4,27 +4,33 @@
 
 **Team Number:** T14
 
-**Team Name:**
+**Team Name:** 
 
 | Team Member Name | Email Address           |
 | ---------------- | ----------------------- |
 | Amaris Chen      | amarisch@seas.upenn.edu |
-| Daniel Lin       | [Email 2]               |
-| Yi Lu Zheng      | [Email 3]               |
+| Daniel Lin       | danilin@seas.upenn.edu  |
+| Yi Lu Zheng      | yzheng6@seas.upenn.edu  |
 
 **GitHub Repository URL:** [https://github.com/upenn-embedded/final-project-s26-t14.git](https://github.com/upenn-embedded/final-project-s26-t14.git)
 
-**GitHub Pages Website URL:** [for final submission]*
+**GitHub Pages Website URL:** [https://upenn-embedded.github.io/final-project-s26-t14/](https://upenn-embedded.github.io/final-project-s26-t14/)
 
 ## Final Project Proposal
 
 ### 1. Abstract
 
+The Mini Arcade Station features a simplified smash-TV shooting game with an external model turret gun in place of joy sticks. It has a TFT screen to display menu and game, signal lights, a buzzer/speaker to generate sound output, and an IMU sensor to determine turret angle.
+
 ### 2. Motivation
+
+For retro arcade lovers and parents on a tight budget, the Mini Arcade Station is perfect to have while occupying a small space. This project not only allows gamer folks to play an arcade-style game within the homes, but it also takes a child's attention away from the phone and onto a physical game that is tactile and interactive. The shooting game itself is inspired from Stardew Valley's Journey of the Prairie King, a minigame which Amaris enjoys.
 
 ### 3. System Block Diagram
 
+
 ### 4. Design Sketches
+
 
 ### 5. Software Requirements Specification (SRS)
 
