@@ -38,7 +38,7 @@ For retro arcade lovers and parents on a tight budget, the Mini Arcade Station i
 
 **5.1 Definitions, Abbreviations**
 
-Here, you will define any special terms, acronyms, or abbreviations you plan to use for hardware
+GPIO: General Purpose Input Output, LED: Light Emitting Diode, I2C: Inter-Integrated Circuit, SPI: Serial Peripheral Interface, TFT LCD: Thin-Film Transistor Liquid Crystal Display.
 
 **5.2 Functionality**
 
@@ -55,7 +55,7 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **6.1 Definitions, Abbreviations**
 
-Here, you will define any special terms, acronyms, or abbreviations you plan to use for hardware
+GPIO: General Purpose Input Output, LED: Light Emitting Diode, I2C: Inter-Integrated Circuit, SPI: Serial Peripheral Interface, TFT LCD: Thin-Film Transistor Liquid Crystal Display.
 
 **6.2 Functionality**
 
