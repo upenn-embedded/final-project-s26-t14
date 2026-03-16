@@ -28,6 +28,8 @@ For retro arcade lovers and parents on a tight budget, the Mini Arcade Station i
 
 ### 3. System Block Diagram
 
+![block](image/README/block.png)
+
 ### 4. Design Sketches
 
 ![sketch](image/README/sketch.png)
@@ -57,15 +59,15 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **6.2 Functionality**
 
-| ID     | Description                                                                                                                                     |
-| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| HRS-01 | ATmega328PB is the main microcontroller for this design.|
-| HRS-02 | The TFT display will be a 3.5" SPI-interfaced color LCD with a minimum resolution of 320x480 pixels and support for 16-bit color depth. |
-| HRS-03 | The MPU-6050 IMU shall be powered at 3.3V and communicate with the gun ATmega328PB over I2C. |
-| HRS-04 | The trigger button shall be connected to external interrupt pin with internal pull-up resistor, producing falling edge signal detections.                                              |
-| HRS-05 | The speaker shall produce audible output at frequencies for sound effects, and game start & end indicator.                                                                           |
-| HRS-06 | Each LED shall illuminate when driven by GPIO pins through current limiting resistors.                                                                                       |
-| HRS-07 | A on/off switch will be used to turn the arcade machine on/off                        |
+| ID     | Description                                                                                                                               |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| HRS-01 | ATmega328PB is the main microcontroller for this design.                                                                                  |
+| HRS-02 | The TFT display will be a 3.5" SPI-interfaced color LCD with a minimum resolution of 320x480 pixels and support for 16-bit color depth.   |
+| HRS-03 | The MPU-6050 IMU shall be powered at 3.3V and communicate with the gun ATmega328PB over I2C.                                              |
+| HRS-04 | The trigger button shall be connected to external interrupt pin with internal pull-up resistor, producing falling edge signal detections. |
+| HRS-05 | The speaker shall produce audible output at frequencies for sound effects, and game start & end indicator.                                |
+| HRS-06 | Each LED shall illuminate when driven by GPIO pins through current limiting resistors.                                                    |
+| HRS-07 | A on/off switch will be used to turn the arcade machine on/off                                                                            |
 
 ### 7. Bill of Materials (BOM)
 
