@@ -4,7 +4,7 @@
 
 **Team Number:** T14
 
-**Team Name:**
+**Team Name:** doomsDAY
 
 | Team Member Name | Email Address           |
 | ---------------- | ----------------------- |
@@ -38,7 +38,15 @@ For retro arcade lovers and parents on a tight budget, the Mini Arcade Station i
 
 **5.1 Definitions, Abbreviations**
 
-GPIO: General Purpose Input Output, LED: Light Emitting Diode, I2C: Inter-Integrated Circuit, SPI: Serial Peripheral Interface, TFT LCD: Thin-Film Transistor Liquid Crystal Display.
+GPIO: General Purpose Input Output
+
+LED: Light Emitting Diode
+
+I2C: Inter-Integrated Circuit
+
+SPI: Serial Peripheral Interface
+
+TFT LCD: Thin-Film Transistor Liquid Crystal Display
 
 **5.2 Functionality**
 
@@ -55,7 +63,15 @@ GPIO: General Purpose Input Output, LED: Light Emitting Diode, I2C: Inter-Integr
 
 **6.1 Definitions, Abbreviations**
 
-GPIO: General Purpose Input Output, LED: Light Emitting Diode, I2C: Inter-Integrated Circuit, SPI: Serial Peripheral Interface, TFT LCD: Thin-Film Transistor Liquid Crystal Display.
+GPIO: General Purpose Input Output
+
+LED: Light Emitting Diode
+
+I2C: Inter-Integrated Circuit
+
+SPI: Serial Peripheral Interface
+
+TFT LCD: Thin-Film Transistor Liquid Crystal Display
 
 **6.2 Functionality**
 
@@ -67,7 +83,7 @@ GPIO: General Purpose Input Output, LED: Light Emitting Diode, I2C: Inter-Integr
 | HRS-04 | The trigger button shall be connected to external interrupt pin with internal pull-up resistor, producing falling edge signal detections. |
 | HRS-05 | The speaker shall produce audible output at frequencies for sound effects, and game start & end indicator.                                |
 | HRS-06 | Each LED shall illuminate when driven by GPIO pins through current limiting resistors.                                                    |
-| HRS-07 | A on/off switch will be used to turn the arcade machine on/off                                                                            |
+| HRS-07 | A on/off switch will be used to turn the arcade machine on/off.                                                                            |
 
 ### 7. Bill of Materials (BOM)
 
