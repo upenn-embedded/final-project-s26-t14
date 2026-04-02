@@ -1,4 +1,4 @@
-title: DoomsDAY: A Mini Arcade Station
+title: DoomsDAY - A Mini Arcade Station
 description: "Embedded shooting game on AtMega328PB"
 remote_theme: pages-themes/slate@v0.2.0
 plugins:
