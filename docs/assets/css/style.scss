@@ -1,3 +1,6 @@
+---
+---
+
 @import "{{ site.theme }}";
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
@@ -5,8 +8,3 @@
 body {
   font-family: 'JetBrains Mono', monospace;
 }
-
-/* Or scope it to just code blocks if you prefer: */
-// code, pre {
-//   font-family: 'JetBrains Mono', monospace;
-// }
