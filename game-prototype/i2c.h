@@ -21,12 +21,12 @@
 #define I2C_OK  0x00
 
 uint8_t get_error();
-void I2C_init(void);
-void I2C_stop(void);
-uint8_t I2C_start(void);
-uint8_t I2C_repStart(void);
-uint8_t I2C_writeBegin(uint8_t addr);
-uint8_t I2C_readBegin(uint8_t addr);
-uint8_t I2C_writeRegister(uint8_t addr, uint8_t reg, uint8_t data);
-void I2C_readStream(uint8_t *buf, uint16_t len);
-uint8_t I2C_readCompleteStream(uint8_t *buf, uint8_t addr, uint8_t reg, uint16_t len);
+void i2c_init(void);
+void i2c_stop(void);
+uint8_t i2c_start(void);
+uint8_t i2c_repStart(void);
+uint8_t i2c_writeBegin(uint8_t addr);
+uint8_t i2c_readBegin(uint8_t addr);
+uint8_t i2c_writeRegister(uint8_t addr, uint8_t reg, uint8_t data);
+void i2c_readStream(uint8_t *buf, uint16_t len);
+uint8_t i2c_readCompleteStream(uint8_t *buf, uint8_t addr, uint8_t reg, uint16_t len);

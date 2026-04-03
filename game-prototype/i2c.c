@@ -27,12 +27,13 @@ uint8_t get_error() {
 }
 
 // I2C functions
-void I2C_init(void) {
+void i2c_init(void) {
     // input pins (TWI peripheral drives open-drain)
     DDRC  &= ~((1 << SDA_PORT) | (1 << SCL_PORT));
 
     // Disable internal pull-ups
-    // Maybe use external 4k7 resistors for 400 kHz ??
+    // Internal pull up resistors in MPU6050
+    // If not MPU6050, need exterminal pull up resistors
     PORTC &= ~((1 << SDA_PORT) | (1 << SCL_PORT));;
 
     TWSR0 = 0x00;  // prescaler = 1
@@ -40,11 +41,11 @@ void I2C_init(void) {
     TWCR0 = (1 << TWEN); 
 }
 
-void I2C_stop(void) {
+void i2c_stop(void) {
     TWCR0 = TWCR_STOP;
 }
 
-uint8_t I2C_start(void) {
+uint8_t i2c_start(void) {
     g_i2c_last_error = I2C_OK;  // clear previous error
  
     TWCR0 = TWCR_START;
@@ -57,7 +58,7 @@ uint8_t I2C_start(void) {
     return I2C_OK;
 }
 
-uint8_t I2C_repStart(void)
+uint8_t i2c_repStart(void)
 {
     g_i2c_last_error = I2C_OK;
  
@@ -71,7 +72,7 @@ uint8_t I2C_repStart(void)
     return I2C_OK;
 }
 
-uint8_t I2C_writeBegin(uint8_t addr)
+uint8_t i2c_writeBegin(uint8_t addr)
 {
     TWDR0 = addr << 1;  // SLA+W: address + write bit (0)
     TWCR0 = TWCR_SEND;
@@ -84,7 +85,7 @@ uint8_t I2C_writeBegin(uint8_t addr)
     return I2C_OK;
 }
 
-uint8_t I2C_readBegin(uint8_t addr)
+uint8_t i2c_readBegin(uint8_t addr)
 {
     TWDR0 = (addr << 1) | 1; // SLA+R: address + read bit (1)
     TWCR0 = TWCR_SEND;
@@ -97,15 +98,15 @@ uint8_t I2C_readBegin(uint8_t addr)
     return I2C_OK;
 }
 
-uint8_t I2C_writeRegister(uint8_t addr, uint8_t reg, uint8_t data)
+uint8_t i2c_writeRegister(uint8_t addr, uint8_t reg, uint8_t data)
 {
     uint8_t err;
  
-    if ((err = I2C_start()) != I2C_OK)
+    if ((err = i2c_start()) != I2C_OK)
         return err;
  
-    if ((err = I2C_writeBegin(addr)) != I2C_OK) {
-        I2C_stop();
+    if ((err = i2c_writeBegin(addr)) != I2C_OK) {
+        i2c_stop();
         return err;
     }
  
@@ -114,7 +115,7 @@ uint8_t I2C_writeRegister(uint8_t addr, uint8_t reg, uint8_t data)
     twi_wait();
     uint8_t st = twi_status();
     if (st != TW_MT_DATA_ACK) {
-        I2C_stop();
+        i2c_stop();
         return twi_error(st);
     }
  
@@ -123,15 +124,15 @@ uint8_t I2C_writeRegister(uint8_t addr, uint8_t reg, uint8_t data)
     twi_wait();
     st = twi_status();
     if (st != TW_MT_DATA_ACK) {
-        I2C_stop();
+        i2c_stop();
         return twi_error(st);
     }
  
-    I2C_stop();
+    i2c_stop();
     return I2C_OK;
 }
  
-void I2C_readStream(uint8_t *buf, uint16_t len)
+void i2c_readStream(uint8_t *buf, uint16_t len)
 {
     for (uint16_t i = 0; i < len; i++) {
         uint8_t is_last = (i == len - 1);
@@ -150,15 +151,15 @@ void I2C_readStream(uint8_t *buf, uint16_t len)
     }
 }
  
-uint8_t I2C_readCompleteStream(uint8_t *buf, uint8_t addr, uint8_t reg, uint16_t len)
+uint8_t i2c_readCompleteStream(uint8_t *buf, uint8_t addr, uint8_t reg, uint16_t len)
 {
     uint8_t err;
  
-    if ((err = I2C_start()) != I2C_OK)
+    if ((err = i2c_start()) != I2C_OK)
         return err;
  
-    if ((err = I2C_writeBegin(addr)) != I2C_OK) {
-        I2C_stop();
+    if ((err = i2c_writeBegin(addr)) != I2C_OK) {
+        i2c_stop();
         return err;
     }
  
@@ -167,22 +168,22 @@ uint8_t I2C_readCompleteStream(uint8_t *buf, uint8_t addr, uint8_t reg, uint16_t
     twi_wait();
     uint8_t st = twi_status();
     if (st != TW_MT_DATA_ACK) {
-        I2C_stop();
+        i2c_stop();
         return twi_error(st);
     }
  
-    if ((err = I2C_repStart()) != I2C_OK) {
-        I2C_stop();
+    if ((err = i2c_repStart()) != I2C_OK) {
+        i2c_stop();
         return err;
     }
  
-    if ((err = I2C_readBegin(addr)) != I2C_OK) {
-        I2C_stop();
+    if ((err = i2c_readBegin(addr)) != I2C_OK) {
+        i2c_stop();
         return err;
     }
  
-    I2C_readStream(buf, len);
-    I2C_stop();
+    i2c_readStream(buf, len);
+    i2c_stop();
  
     return g_i2c_last_error;
 }

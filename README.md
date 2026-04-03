@@ -132,6 +132,20 @@ Demo Flow
 
 ### Last week's progress
 
+##### Amaris
+
+* [X] Attempted to reverse engineer object files in Worksheet 3's lib_i2c_imu.a via avr objectdump
+* [X] Completed the I2C and IMU libraries for sensor module MPU6050 with debugging error variables
+* [X] Printed roll, pitch, and yaw to the serial terminal via UART, but noticed that the yaw continously shifted due to a lack of magnometer on the MPU6050.
+
+##### Daniel
+
+##### Yi Lu Zheng
+
+| IMU Roll, Pitch, Yaw For IMU Sitting Flatly On Table | col2 | col3 |
+| :--------------------------------------------------: | ---- | ---- |
+|    ![1775244477191](image/README/1775244477191.png)    |      |      |
+
 ### Current state of project
 
 ### Next week's plan
