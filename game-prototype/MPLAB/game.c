@@ -62,6 +62,7 @@ void Initialize() {
     lcd_init();
     LCD_setScreen(0xFFFF);
     player_init();
+    LCD_drawString(xdim/2, ydim/5, "doomsDAY", 0x0000, 0xFFFF);
 }
 
 int ADC_Read(char channel)

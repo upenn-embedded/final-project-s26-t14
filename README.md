@@ -138,11 +138,13 @@ Demo Flow
 * [X] Completed the I2C and IMU libraries for sensor module MPU6050 with debugging error variables
 * [X] Printed roll, pitch, and yaw to the serial terminal via UART, but noticed that the yaw continously shifted due to a lack of magnometer on the MPU6050.
 
-| IMU Roll, Pitch, Yaw For IMU Sitting Flatly On Table | Basic Circuit Diagram for Input & Output | col3 |
-| :--------------------------------------------------: | ---------------------------------------- | ---- |
-|    ![1775244477191](image/README/1775244477191.png)    |   ![circuitDiagramYZ](image/README/circuitDiagramYZ.jpeg)                                       |      |
+| IMU Roll, Pitch, Yaw For IMU Sitting Flatly On Table | Basic Circuit Diagram for Input & Output              | Drawing Prototype "Player" on screen                   |
+| :--------------------------------------------------: | ----------------------------------------------------- | ------------------------------------------------------ |
+|    ![1775244477191](image/README/1775244477191.png)    | ![circuitDiagramYZ](image/README/circuitDiagramYZ.jpeg) | ![bare bone game img](image/README/ballplayertitle.jpeg) |
 
 ##### Daniel
+
+* [X] Started working on the game code and have a skeleton of some of the function that needs to be implemented. Current, the prototype player is a ball and prints to the TFT screen at the center (which tests the init code for the player)
 
 ##### Yi Lu Zheng
 
