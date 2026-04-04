@@ -7,46 +7,61 @@
 #include "lib/LCD_GFX.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 
 /* Structs */
 typedef struct Player {
-    Vector2 position;
+    int xpos;
+    int ypos;
     int size;
     int health;
     uint16_t color;
 } Player;
 
 typedef struct Enemy {
-    Vector2 position;
+    int xpos;
+    int ypos;
     int size;
     int isAlive;
     uint16_t color;
 } Enemy;
 
 /* Definitions */
+#define xp PC0
 #define yp PC1
-#define xp PC2
+#define xdim 180 // change xdim & ydim based on the size of the screen
+#define ydim 128
 
 Player player;
 
 /* Functions */
 void ADC_Init()
 {
-    DDRC &= ~(1<<y_p);
+    DDRC &= ~(1<<xp);
+    DDRC &= ~(1<<yp);
 
     ADCSRA = 0x87;			/* Enable ADC, fr/128  */
 	ADMUX = 0x40;			/* Vref: Avcc, ADC channel: 0 */
 	
 }
 
-void player_init()
+void player_init() {
+    player.xpos = xdim / 2;
+    player.ypos = ydim / 2;
+    player.size = 20;
+    player.color = 0x0000;
+    player.health = 3;
+
+    LCD_drawCircle(player.xpos, player.ypos, player.size, player.color);
+}
 
 void Initialize() {
     ADC_Init();
 
     lcd_init();
     LCD_setScreen(0xFFFF);
+    player_init();
 }
 
 int ADC_Read(char channel)
@@ -66,11 +81,11 @@ int ADC_Read(char channel)
 	return(Ain);			/* Return digital value*/
 }
 
-void player() {
+void update_player() {
     // TODO
 }
 
-void enemy() {
+void update_enemy() {
     // TODO
 }
 

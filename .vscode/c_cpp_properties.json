@@ -10,6 +10,21 @@
             "cStandard": "c17",
             "cppStandard": "c++14",
             "intelliSenseMode": "macos-clang-arm64"
+        },
+        {
+            "name": "AVR",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/Applications/microchip/xc8/v3.10/avr/avr/include/**"
+            ],
+            "defines": [
+                "F_CPU=16000000UL",
+                "__AVR_ATmega328PB__"
+            ],
+            "compilerPath": "/Applications/microchip/xc8/v3.10/avr/bin/avr-gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-gcc-x86"
         }
     ],
     "version": 4

@@ -70,7 +70,7 @@ void LCD_drawChar(uint8_t x, uint8_t y, uint16_t character, uint16_t fColor, uin
 ******************************************************************************/
 
 /**************************************************************************//**
-* @fn			void LCD_drawCircle(uint8_t x0, uint8_t y0, uint8_t radius,uint16_t color)
+* @fn			void LCD_drawCircle(uint8_t x0, uint8_t y0, uint8_t radius, uint16_t color)
 * @brief		Draw a colored circle of set radius at coordinates
 * @note
 *****************************************************************************/
