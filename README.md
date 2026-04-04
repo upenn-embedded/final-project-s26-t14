@@ -160,7 +160,7 @@ Project current state has bare bone completion. Sensors, switches, and other use
 - Finalize and 3D print the turret design and test fit.
 - Implement more advance game code logic.
 - Switch out buzzer to a speaker (more flexible sound change).
-- Begin integrating hardware user input with the game. 
+- Begin integrating hardware user input with the game.
 
 ## Sprint Review #2
 
