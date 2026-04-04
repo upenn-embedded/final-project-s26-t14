@@ -91,4 +91,5 @@ void update_enemy() {
 
 int main(void) {
     // TODO
+    Initialize();
 }
