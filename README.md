@@ -138,26 +138,25 @@ Demo Flow
 * [X] Completed the I2C and IMU libraries for sensor module MPU6050 with debugging error variables
 * [X] Printed roll, pitch, and yaw to the serial terminal via UART, but noticed that the yaw continously shifted due to a lack of magnometer on the MPU6050.
 
-| IMU Roll, Pitch, Yaw For IMU Sitting Flatly On Table | col2 | col3 |
-| :--------------------------------------------------: | ---- | ---- |
-|    ![1775244477191](image/README/1775244477191.png)    |      |      |
+| IMU Roll, Pitch, Yaw For IMU Sitting Flatly On Table | Basic Circuit Diagram for Input & Output | col3 |
+| :--------------------------------------------------: | ---------------------------------------- | ---- |
+|    ![1775244477191](image/README/1775244477191.png)    |   ![circuitDiagramYZ](image/README/circuitDiagramYZ.jpeg)                                       |      |
 
 ##### Daniel
 
 ##### Yi Lu Zheng
 
 * [X] Completed basic circuit wiring for LEDs, button, and buzzer. Simulated real game performance: Play music with buzzer. Extinguish LED everytime health decreases. Print "Shoot!" in serial terminal with every button press.
-
 * [X] Designed CAD model for the turret.
 
 ### Current state of project
 
-Project current state has bare bone completion. Sensors, switches, and other user interactions are functional. The state of the game code skeleton is complete. 
+Project current state has bare bone completion. Sensors, switches, and other user interactions are functional. The state of the game code skeleton is complete.
 
 ### Next week's plan
 
-- Finalize and 3D print the turret design and test fit. 
-- Implement more advance game code logic. 
+- Finalize and 3D print the turret design and test fit.
+- Implement more advance game code logic.
 - Switch out buzzer to a speaker (more flexible sound change).
 
 ## Sprint Review #2
