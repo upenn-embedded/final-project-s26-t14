@@ -23,7 +23,7 @@ int main(void)
     if (s_reset_cause & (1 << EXTRF)) printf("RST:EXT\n");
     if (s_reset_cause & (1 << PORF))  printf("RST:PWR\n");
  
-    I2C_init();
+    i2c_init();
  
     while (imu_init() != MPU6050_OK) {
         printf("imu_init failed, g_i2c_last_error=0x%02X\n",  get_error());
