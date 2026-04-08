@@ -2,11 +2,13 @@
 #include <avr/io.h>
 #include <util/twi.h>
 
+#define I2C_TIMEOUT 1
+
 // Globaal error code
 volatile uint8_t g_i2c_last_error = I2C_OK;
 
 // Inline removes function call overhead, for frequently used function
-static inline void twi_wait(void)
+static inline uint8_t twi_wait(void)
 {
     while (!(TWCR0 & (1 << TWINT)));
 }
@@ -132,7 +134,7 @@ uint8_t i2c_writeRegister(uint8_t addr, uint8_t reg, uint8_t data)
     return I2C_OK;
 }
  
-void i2c_readStream(uint8_t *buf, uint16_t len)
+uint8_t i2c_readStream(uint8_t *buf, uint16_t len)
 {
     for (uint16_t i = 0; i < len; i++) {
         uint8_t is_last = (i == len - 1);
@@ -149,6 +151,7 @@ void i2c_readStream(uint8_t *buf, uint16_t len)
  
         buf[i] = TWDR0;
     }
+    return I2C_OK;
 }
  
 uint8_t i2c_readCompleteStream(uint8_t *buf, uint8_t addr, uint8_t reg, uint16_t len)
