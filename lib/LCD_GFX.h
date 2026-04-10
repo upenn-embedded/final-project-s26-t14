@@ -1,7 +1,7 @@
 /*
- *  LCD_GFX.h
+ * LCD_GFX.h
  *
- *  Created: 9/20/2021 6:54:37 PM
+ * Created: 9/20/2021 6:54:37 PM
  *  Author: You
  */ 
 
@@ -22,11 +22,12 @@
 #define YELLOW    0xFFE0
 
 uint16_t rgb565(uint8_t red, uint8_t green, uint8_t blue);
-void LCD_drawPixel(uint16_t x, uint16_t y, uint16_t color);
-void LCD_drawChar(uint16_t x, uint16_t y, uint16_t character, uint16_t fColor, uint16_t bColor);
-void LCD_drawCircle(uint16_t x0, uint16_t y0, uint16_t radius,uint16_t color);
+void LCD_drawPixel(uint8_t x, uint8_t y, uint16_t color);
+void LCD_drawChar(uint8_t x, uint8_t y, uint16_t character, uint16_t fColor, uint16_t bColor);
+void LCD_drawChar_Transparent(uint8_t x, uint8_t y, uint16_t character, uint16_t fColor);
+void LCD_drawCircle(uint8_t x0, uint8_t y0, uint8_t radius,uint16_t color);
 void LCD_drawLine(short x0,short y0,short x1,short y1,uint16_t c);
-void LCD_drawBlock(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1,uint16_t color);
+void LCD_drawBlock(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1,uint16_t color);
 void LCD_setScreen(uint16_t color);
-void LCD_drawString(uint16_t x, uint16_t y, char* str, uint16_t fg, uint16_t bg);
+void LCD_drawString(uint8_t x, uint8_t y, char* str, uint16_t fg, uint16_t bg);
 #endif /* LCD_GFX_H_ */
