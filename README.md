@@ -178,7 +178,8 @@ Project current state has bare bone completion. Sensors, switches, and other use
 
 ##### Yi Lu Zheng
 
-* [X] Soldered various type of potentiometers
+* [X] Soldered various types of potentiometers
+* [X] Designed and 3D modeled turret on onshape
 
 | IMU Acceleration and Button       | Potentiometers                | Turret CAD & Sketch                                                                        |
 | --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------ |
