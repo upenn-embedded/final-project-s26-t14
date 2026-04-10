@@ -149,7 +149,7 @@ Demo Flow
 
 | IMU Roll, Pitch, Yaw For IMU Sitting Flatly On Table | Basic Circuit Diagram for Input & Output              | Drawing Prototype "Player" on screen                   |
 | :--------------------------------------------------: | ----------------------------------------------------- | ------------------------------------------------------ |
-|    ![1775244477191](image/README/1775244477191.png)    | ![circuitDiagramYZ](image/README/circuitDiagramYZ.jpeg) | ![bare bone game img](image/README/ballplayertitle.jpeg) |
+|   ![1775244477191](image/README/roll_pitch_yaw.png)   | ![circuitDiagramYZ](image/README/circuitDiagramYZ.jpeg) | ![bare bone game img](image/README/ballplayertitle.jpeg) |
 
 ### Current state of project
 
@@ -165,6 +165,24 @@ Project current state has bare bone completion. Sensors, switches, and other use
 ## Sprint Review #2
 
 ### Last week's progress
+
+##### Amaris
+
+* [X] Integrated with Yi Lu's week 1 code to have non-conflicting communication between I2C and button interrupt. The UART can stream accelearation values at consistent intervals and print out "Shoot!!!", which can be triggered at anytime by the user.
+* [X] Migrated Yi Lu's code to play a short sequences of notes on initialization
+* [X] Soldered various type of potentiometers
+
+##### Daniel
+
+* [X]
+
+##### Yi Lu Zheng
+
+* [X] Soldered various type of potentiometers
+
+| IMU Acceleration and Button       | Potentiometers                | Turret CAD & Sketch                                                                        |
+| --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------ |
+| ![img](image/README/imu_button.png) | ![pots](image/README/pots.jpeg) | ![1775807013490](image/README/turret.png)<br />![1775807068877](image/README/turretSketch.png) |
 
 ### Current state of project
 
