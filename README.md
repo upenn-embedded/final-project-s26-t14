@@ -192,7 +192,13 @@ Project current state has bare bone completion. Sensors, switches, and other use
 
 ### Current state of project
 
+Some progress has been made for the project. Hardwares such as sensors, buttons, and communciations continue to be  oeprational. The new 3 inch screen is now operation (with all the barebone draw functions).There is also now a speaker that can play sequence of notes as music. A CADed prototype of the turret was made, and the progress was made on adding more game logic (e.g., a moving enemy).
+
 ### Next week's plan
+
+* Tweak, finalize, and 3D print the turret model
+* Finish the game (at least the a basic playable version) and add more advanced features if there's time
+* Integrate hardware with the game (ie., LED indicators for health bar and ammo count, cursor moving with turret, and other hardware components such as reload button)
 
 ## MVP Demo
 
