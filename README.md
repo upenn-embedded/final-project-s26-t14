@@ -174,7 +174,8 @@ Project current state has bare bone completion. Sensors, switches, and other use
 
 ##### Daniel
 
-* [X]
+* [X] Worked on the game and added a moving enemy and a cursor that is currently controllable by a joystick (but will later be able to be controlled by the turret model)
+* [X] Worked on writing a driver for the HX8357D TFT LCD display and wrote test code to test the functionality and correctness of the driver.
 
 ##### Yi Lu Zheng
 
@@ -184,6 +185,10 @@ Project current state has bare bone completion. Sensors, switches, and other use
 | IMU Acceleration and Button       | Potentiometers                | Turret CAD & Sketch                                                                        |
 | --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------ |
 | ![img](image/README/imu_button.png) | ![pots](image/README/pots.jpeg) | ![1775807013490](image/README/turret.png)<br />![1775807068877](image/README/turretSketch.png) |
+
+| Current State of the Game                                                                    | Testing the Driver code for the new HX8357D TFT Screen                                              |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| ![picture of the game with the player, cursor, and moving enemy](image\README\movingenemy.jpeg) | ![Image of the HX8357 TFT LCD Screen displaying four colored squares](image\README\hx8357tftlcd.jpeg) |
 
 ### Current state of project
 
