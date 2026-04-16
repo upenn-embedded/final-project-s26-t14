@@ -202,6 +202,8 @@ Some progress has been made for the project. Hardwares such as sensors, buttons,
 
 ## MVP Demo
 
+![](image/README/new_systemblockdiagram.png)
+
 ## Final Report
 
 Don't forget to make the GitHub pages public website!
