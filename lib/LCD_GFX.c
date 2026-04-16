@@ -7,37 +7,35 @@
 #include <string.h>
 #include <stdlib.h>
 
-static void LCD_fillSpan(uint16_t x0, uint16_t y, uint16_t x1, uint16_t color)
-{
-    uint32_t count;
-
-    if (y >= LCD_HEIGHT || x0 >= LCD_WIDTH || x1 >= LCD_WIDTH || x1 < x0) {
-        return;
-    }
+static void LCD_fillSpan(uint16_t x0, uint16_t y, uint16_t x1, uint16_t color) {
+    // Corrected boundary checks for HX8357 dimensions 
+    if (y >= LCD_HEIGHT) return;
+    if (x0 >= LCD_WIDTH) x0 = 0;
+    if (x1 >= LCD_WIDTH) x1 = LCD_WIDTH - 1;
+    if (x1 < x0) return;
 
     LCD_setAddr(x0, y, x1, y);
+    
+    // Low CS once for the entire stream for efficiency
     clear(LCD_PORT, LCD_TFT_CS);
     set(LCD_PORT, LCD_DC);
-    for (count = 0; count < (uint32_t)(x1 - x0 + 1U); count++) {
-        SPI_ControllerTx_16bit_stream(color);
+    
+    for (uint32_t count = 0; count <= (uint32_t)(x1 - x0); count++) {
+        SPI_ControllerTx_stream((uint8_t)(color >> 8)); // High Byte
+        SPI_ControllerTx_stream((uint8_t)(color & 0xFF)); // Low Byte
     }
     set(LCD_PORT, LCD_TFT_CS);
 }
 
-uint16_t rgb565(uint8_t red, uint8_t green, uint8_t blue)
-{
-    return (uint16_t)((((uint16_t)(red & 0xF8)) << 8) |
-                      (((uint16_t)(green & 0xFC)) << 3) |
-                      ((uint16_t)(blue) >> 3));
-}
-
-void LCD_drawPixel(uint16_t x, uint16_t y, uint16_t color)
-{
-    if (x >= LCD_WIDTH || y >= LCD_HEIGHT) {
-        return;
-    }
+void LCD_drawPixel(uint16_t x, uint16_t y, uint16_t color) {
+    if (x >= LCD_WIDTH || y >= LCD_HEIGHT) return;
     LCD_setAddr(x, y, x, y);
-    SPI_ControllerTx_16bit(color);
+    
+    clear(LCD_PORT, LCD_TFT_CS);
+    set(LCD_PORT, LCD_DC);
+    SPI_ControllerTx_stream((uint8_t)(color >> 8));
+    SPI_ControllerTx_stream((uint8_t)(color & 0xFF));
+    set(LCD_PORT, LCD_TFT_CS);
 }
 
 void LCD_drawChar(uint16_t x, uint16_t y, uint8_t character, uint16_t fColor, uint16_t bColor)
@@ -67,29 +65,47 @@ void LCD_drawChar(uint16_t x, uint16_t y, uint8_t character, uint16_t fColor, ui
     }
 }
 
+void LCD_drawChar_Transparent(uint16_t x, uint16_t y, uint8_t character, uint16_t fColor)
+{
+    uint8_t row;
+    uint8_t i;
+    uint8_t j;
+
+    if (character < 0x20 || character > 0x7F) {
+        character = '?';
+    }
+    row = (uint8_t)(character - 0x20);
+
+    for (i = 0; i < 5; i++) {
+        uint8_t pixels = (uint8_t)ASCII[row][i];
+        for (j = 0; j < 8; j++) {
+            if (((pixels >> j) & 0x01U) != 0U) {
+                LCD_drawPixel(x + i, y + j, fColor);
+            }
+        }
+    }
+}
+
 void LCD_drawCircle(uint16_t x0, uint16_t y0, uint16_t radius, uint16_t color)
 {
     int16_t x = 0;
     int16_t y = (int16_t)radius;
-    int16_t d = 1 - (int16_t)radius;
+    int16_t d = 3 - 2 * (int16_t)radius;
 
     while (y >= x) {
-        if (x0 >= (uint16_t)x && x0 + x < LCD_WIDTH) {
-            if (y0 >= (uint16_t)y) LCD_fillSpan(x0 - x, y0 - y, x0 + x, color);
-            if (y0 + y < LCD_HEIGHT) LCD_fillSpan(x0 - x, y0 + y, x0 + x, color);
-        }
-        if (x0 >= (uint16_t)y && x0 + y < LCD_WIDTH) {
-            if (y0 >= (uint16_t)x) LCD_fillSpan(x0 - y, y0 - x, x0 + y, color);
-            if (y0 + x < LCD_HEIGHT) LCD_fillSpan(x0 - y, y0 + x, x0 + y, color);
-        }
+        // We use signed math for the offset, then cast to uint16_t for the function
+        LCD_fillSpan((uint16_t)(x0 - x), (uint16_t)(y0 + y), (uint16_t)(x0 + x), color);
+        LCD_fillSpan((uint16_t)(x0 - x), (uint16_t)(y0 - y), (uint16_t)(x0 + x), color);
+        LCD_fillSpan((uint16_t)(x0 - y), (uint16_t)(y0 + x), (uint16_t)(x0 + y), color);
+        LCD_fillSpan((uint16_t)(x0 - y), (uint16_t)(y0 - x), (uint16_t)(x0 + y), color);
 
-        x++;
         if (d < 0) {
-            d += 2 * x + 1;
+            d = d + 4 * x + 6;
         } else {
+            d = d + 4 * (x - y) + 10;
             y--;
-            d += 2 * (x - y) + 1;
         }
+        x++;
     }
 }
 

@@ -11,14 +11,14 @@
 
 
 void Initialize() {
-    lcd_init();
+    LCD_init();
     LCD_setScreen(WHITE);
 }
 
 int main (void) {
     Initialize();
 //    LCD_drawBlock(0, 0, 319, 479, RED);
-    LCD_drawBlock(100, 100, 160, 160, RED);
+    LCD_drawBlock(0, 0, 160, 160, RED);
     LCD_drawBlock(60, 60, 110, 110, YELLOW);
     LCD_drawBlock(200, 200, 260, 260, BLUE);
     LCD_drawBlock(180, 180, 230, 230, GREEN);

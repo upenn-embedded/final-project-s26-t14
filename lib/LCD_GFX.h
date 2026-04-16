@@ -21,6 +21,7 @@
 uint16_t rgb565(uint8_t red, uint8_t green, uint8_t blue);
 void LCD_drawPixel(uint16_t x, uint16_t y, uint16_t color);
 void LCD_drawChar(uint16_t x, uint16_t y, uint8_t character, uint16_t fColor, uint16_t bColor);
+void LCD_drawChar_Transparent(uint16_t x, uint16_t y, uint8_t character, uint16_t fColor);
 void LCD_drawCircle(uint16_t x0, uint16_t y0, uint16_t radius, uint16_t color);
 void LCD_drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t c);
 void LCD_drawBlock(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
