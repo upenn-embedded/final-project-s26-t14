@@ -36,7 +36,7 @@ uint32_t millis(void) {
 ISR(INT0_vect) {
     static uint32_t last_interrupt_time = 0;
     uint32_t interrupt_time = s_ms;
-    
+
     // software debounce
     if (interrupt_time - last_interrupt_time > 150) {
         s_shoot = 1;
