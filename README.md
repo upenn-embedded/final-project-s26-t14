@@ -226,8 +226,22 @@ Yes, we have achieved some of our software requirements. SRS-01, 02, and 03 has 
 
 ### Hardware Requirements Specification (HRS)
 
+* The TFT screen is functional with RGB implemention of the "sprites" on the screen.
+* The IMU is fully functional as it is able to print values on serial terminal and the values are expected when it is shaken.
+* The button is functional and react appropriately when clicked. This was tested by printing "Shoot!" in the serial terminal.
+* The speaker is able to play music, and sounds better than the buzzer.
+* Every LED is able to light up and react accordingly when a health bar is down. We actually enhanced this using an LED segment bar.
+* The on/off switch has not been implemented yet but it is not a trouble to add.
+* We've also decided to add a vibration motor to create physical effect when the user shoots and can feel the simulated backward jerk of the turret
+* Potentiometers were added to obtain the x and y positioning of the cursor when rotating the turret. Values shown on the serial terminal are expected.
+
 ### Other elements
 
+The other main element to the project is our 3D printed turret (require readjustments on dimensions) and laser cut casing (halfway complete at this stage).
+
+| 3D CAD Turret                               | Laser Cut Arcade Box |
+|---------------------------------------------|----------------------|
+| ![3Dturret](./image/README/turret3DCAD.png) | ![lasercut](./image/README/arcadeCaseLaserCut.png) |
 
 ### Riskiest Part Remaining
 
