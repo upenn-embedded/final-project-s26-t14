@@ -36,7 +36,7 @@ uint32_t millis(void) {
 ISR(INT0_vect) {
     static uint32_t last_interrupt_time = 0;
     uint32_t interrupt_time = s_ms;
-    
+
     // software debounce
     if (interrupt_time - last_interrupt_time > 150) {
         s_shoot = 1;
@@ -65,36 +65,57 @@ void Initialize() {
     
     // Buzzer Setup (PD3 as output)
     DDRD |= (1 << DDD3);
+    
+    // ADC init for potentiometer
+    ADMUX = (1 << REFS0);  
+    ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // prescaler = 128
 
     sei();
+}
+
+uint16_t adc_read(uint8_t channel) {
+    ADMUX = (ADMUX & 0xF0) | (channel & 0x0F);
+    ADCSRA |= (1 << ADSC);
+    while (ADCSRA & (1 << ADSC));
+    return ADC;
 }
 
 int main(void) {
     Initialize();
     
     printf("Game Starting...\n");
-    pacman_theme(); 
-
-    uint32_t last_ms = millis();
+    pacman_theme();
+    uint32_t last_imu_ms = millis();
+    uint32_t last_adc_ms = millis();
     
     while (1) {
+    
         if (s_shoot) {
             s_shoot = 0;
             printf("Shoot!!!\n");
         }
 
         uint32_t now = millis();
-        uint32_t elapsed_ms = now - last_ms;
 
-        // 100Hz Update Loop
-        if (elapsed_ms >= 10) {
-            float dt = elapsed_ms / 1000.0f;
-            last_ms = now;
+        // Update Loop
+        if (now - last_imu_ms >= 200) {
+            last_imu_ms += 200;
+            float dt = 0.2f;
 
             if (mpu6050_update(dt) == MPU6050_OK) {
-                printf("ax:%.1f ay:%.1f az:%.1f\n",
-                       get_ax(), get_ay(), get_az());
+//                printf("ax:%.1f ay:%.1f az:%.1f\n",
+//                       get_ax(), get_ay(), get_az());
+                if (shock_detected()) {
+                    printf("Shock detected!\n");
+                }
             }
+        }
+
+        if (now - last_adc_ms >= 100) {
+            last_adc_ms += 100;
+            uint16_t pot1 = adc_read(0);
+            uint16_t pot2 = adc_read(1);
+            printf("pot1: %u  pot2: %u\n", pot1, pot2);
         }
     }
     return 0;

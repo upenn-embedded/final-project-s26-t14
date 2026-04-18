@@ -198,9 +198,36 @@ Some progress has been made for the project. Hardwares such as sensors, buttons,
 
 * Tweak, finalize, and 3D print the turret model
 * Finish the game (at least the a basic playable version) and add more advanced features if there's time
-* Integrate hardware with the game (ie., LED indicators for health bar and ammo count, cursor moving with turret, and other hardware components such as reload button)
+* Integrate hardware with the game (ie., LED indicators for health bar and ammo count, cursor moving with turret, and other hardware components such as reloa button)
 
 ## MVP Demo
+
+| System Block Diagram (Updated)                                 | Hardware Implementation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![system block diagram](image/README/new_systemblockdiagram.png) | Mechanical parts:<br />- 3D printed turret<br />- Laser-cut arcade casework<br /><br />On the turret:<br />- **IMU** will be attached to the top of the turret muzzle<br />- **Buttons** will be mounted to 2 handles of the turret<br />- **Potentiometers** will be connected to the axles that rotate with turret<br />- **Vibrational motor** will be between the handles and rubber grips<br /><br />On the arcade case:<br />- **on/off button** & **speaker** will be on the side of the arcade machine casing<br />- **TFT screen** will be embedded to the front of the arcade case<br />- **LED segment** will be placed on the top on the arcade case |
+
+### Firmware Implementation
+
+* Timer interrupt on timer1 (CTC mode, 64 prescaler) to update a counter variable every millisecond. A short sequence of notes run on time2 on start up
+* GPIO interrupt on trigger button pin to set the shoot flag. Software debouncing to only set the flag if the duration between a press and the last press is greater than 150ms
+* ADC0 and ADC1 used for potentiometer readings
+* 400kHz I2C to read complete stream from IMU (bytes 0-5 are accelerometer, 8-13 gyroscope). All I2C functions return status code for debugging.
+* In the main file, flags and time stamps are looped through to perform sensor serial prints at 9600 baud rate
+
+### Small Demo Video
+
+
+### Software Requirements Specification (SRS)
+
+
+### Hardware Requirements Specification (HRS)
+
+
+### Other elements
+
+
+### Riskiest Part Remaining
+
 
 ## Final Report
 

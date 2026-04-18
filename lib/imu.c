@@ -12,8 +12,8 @@
 #define REG_WHO_AM_I        0x75
  
 #define GYRO_SENSITIVITY    131.0f
-#define ACCEL_SENSITIVITY   16384.0f
-#define ALPHA               0.96f
+#define ACCEL_SENSITIVITY    16384.0f
+#define ALPHA                0.96f
  
 //static float s_pitch = 0.0f;
 //static float s_roll  = 0.0f;
@@ -36,7 +36,7 @@ uint8_t mpu6050_update(float dt)
     
     ax = (float)to_int16(raw[0], raw[1]) / ACCEL_SENSITIVITY;
     ay = (float)to_int16(raw[2], raw[3]) / ACCEL_SENSITIVITY;
-    az = (float)to_int16(raw[4], raw[5]) / ACCEL_SENSITIVITY;
+    az = (float)to_int16(raw[4], raw[5]) / ACCEL_SENSITIVITY - 1;
  
 //    float gx = (float)to_int16(raw[8],  raw[9])  / GYRO_SENSITIVITY;
 //    float gy = (float)to_int16(raw[10], raw[11]) / GYRO_SENSITIVITY;
@@ -61,3 +61,7 @@ uint8_t mpu6050_update(float dt)
 float get_ax(void) {return ax;}
 float get_ay(void) {return ay;}
 float get_az(void) {return az;}
+
+int shock_detected(void) {
+    return (ax * ax + ay * ay + az * az) > 0.5;
+}
