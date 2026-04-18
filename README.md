@@ -222,15 +222,16 @@ https://github.com/user-attachments/assets/b98ebf85-277b-46e5-9fe6-23de1817a86f
 
 ### Software Requirements Specification (SRS)
 
+Yes, we have achieved some of our software requirements. SRS-01, 02, and 03 has been completed. SRS-05 is half way done. SRS-04 and SRS-06 still needs to be completed. Refer to the demo videos above for the demonstration of data collection. The data is then streamed to either the terminal (for the IMU currently) or used as an input for the game.
 
 ### Hardware Requirements Specification (HRS)
-
 
 ### Other elements
 
 
 ### Riskiest Part Remaining
 
+The riskiest part remaining is the integration of the hardware and software. There could be a lot of thing that could break, which could set us back a ton. To de-risk it, we will try to integrate early and also compare the code to ensure that parts of the codes that have higher similarities are integrated first and tested to ensure maximum compatibility before moving on to other hard integration. The software and hardware also slightly derisk the integration because they are written independently of each other and thus the integration could be easier since core codes are more resistant to breaking from poor integration.
 
 ## Final Report
 
