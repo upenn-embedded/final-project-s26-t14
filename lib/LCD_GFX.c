@@ -170,3 +170,16 @@ void LCD_drawString(uint16_t x, uint16_t y, const char *str, uint16_t fg, uint16
         LCD_drawChar(x + (uint16_t)(i * 6U), y, (uint8_t)str[i], fg, bg);
     }
 }
+
+void LCD_drawCursor(uint16_t x, uint16_t y, uint16_t color) {
+    // Define cursor size (5 pixels in each direction from center)
+    uint16_t size = 5;
+
+    // Horizontal line (left to right)
+    // Start at x-size and end at x+size, centered on y
+    LCD_drawLine(x - size, y, x + size, y, color);
+
+    // Vertical line (top to bottom)
+    // Start at y-size and end at y+size, centered on x
+    LCD_drawLine(x, y - size, x, y + size, color);
+}

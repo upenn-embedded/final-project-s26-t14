@@ -4,8 +4,14 @@
 #include <avr/io.h>
 
 // Screen Dimensions
-#define LCD_WIDTH  320
-#define LCD_HEIGHT 480
+#define LCD_WIDTH  480
+#define LCD_HEIGHT 320
+
+// MADCTL Bits for Orientation
+#define MADCTL_MY  0x80 // Row Address Order (Y-mirror)
+#define MADCTL_MX  0x40 // Column Address Order (X-mirror)
+#define MADCTL_MV  0x20 // Row/Column Exchange (Rotation)
+#define MADCTL_BGR 0x08 // BGR color filter panel
 
 // Pin Definitions (Modify based on your specific wiring)
 #define LCD_PORT    PORTB

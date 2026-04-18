@@ -27,5 +27,6 @@ void LCD_drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t c);
 void LCD_drawBlock(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
 void LCD_setScreen(uint16_t color);
 void LCD_drawString(uint16_t x, uint16_t y, const char *str, uint16_t fg, uint16_t bg);
+void LCD_drawCursor(uint16_t x, uint16_t y, uint16_t color);
 
 #endif /* LCD_GFX_H_ */

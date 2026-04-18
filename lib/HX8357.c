@@ -29,6 +29,30 @@ static void sendData(uint8_t data) {
     set(LCD_PORT, LCD_TFT_CS);
 }
 
+void LCD_rotate(uint8_t rotation) {
+    sendCommand(HX8357_MADCTL);
+    uint8_t madctl_val = 0;
+
+    switch (rotation % 4) {
+        case 0: // Portrait
+            madctl_val = MADCTL_BGR;
+            break;
+        case 1: // Landscape (Top-Left Origin, Y increases DOWN)
+            // MV (0x20): Landscape mode
+            // MX (0x40): Set to 0 (No horizontal flip)
+            // MY (0x80): Set to 0 (No vertical flip)
+            madctl_val = MADCTL_MV | MADCTL_BGR; // Total: 0x28
+            break;
+        case 2: // Portrait (Upside Down)
+            madctl_val = MADCTL_MY | MADCTL_MX | MADCTL_BGR;
+            break;
+        case 3: // Landscape (The "other" landscape)
+            madctl_val = MADCTL_MV | MADCTL_MY | MADCTL_MX | MADCTL_BGR;
+            break;
+    }
+    sendData(madctl_val);
+}
+
 void LCD_init(void) {
     SPI_Controller_Init();
 
@@ -53,6 +77,9 @@ void LCD_init(void) {
 
     sendCommand(HX8357_DISPON); // Display On 
     _delay_ms(50);
+
+    // Set to Landscape mode immediately after turning display on
+    LCD_rotate(1);
 }
 
 void LCD_setAddr(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
