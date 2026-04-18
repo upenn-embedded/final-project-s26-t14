@@ -16,7 +16,6 @@ static void LCD_fillSpan(uint16_t x0, uint16_t y, uint16_t x1, uint16_t color) {
 
     LCD_setAddr(x0, y, x1, y);
     
-    // Low CS once for the entire stream for efficiency
     clear(LCD_PORT, LCD_TFT_CS);
     set(LCD_PORT, LCD_DC);
     

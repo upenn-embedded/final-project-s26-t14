@@ -13,7 +13,7 @@
 #define MADCTL_MV  0x20 // Row/Column Exchange (Rotation)
 #define MADCTL_BGR 0x08 // BGR color filter panel
 
-// Pin Definitions (Modify based on your specific wiring)
+// Pin Definitions
 #define LCD_PORT    PORTB
 #define LCD_DDR     DDRB
 #define LCD_DC      PORTB0  // Data/Command
@@ -22,7 +22,7 @@
 #define LCD_MOSI    PORTB3  // SPI MOSI
 #define LCD_SCK     PORTB5  // SPI Clock
 
-// HX8357 Commands [cite: 23, 31]
+// HX8357 Commands
 #define HX8357_SWRESET 0x01
 #define HX8357_SLPOUT  0x11
 #define HX8357_COLMOD  0x3A

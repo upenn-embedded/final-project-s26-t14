@@ -5,7 +5,6 @@ static void SPI_Controller_Init(void) {
     // Setup SPI pins: MOSI, SCK, CS, DC, RST as output
     LCD_DDR |= (1<<LCD_MOSI)|(1<<LCD_SCK)|(1<<LCD_TFT_CS)|(1<<LCD_DC)|(1<<LCD_RST);
     
-    // Enable SPI, Master, clk/2 speed for high performance 
     SPCR0 = (1<<SPE) | (1<<MSTR);
     SPSR0 = (1<<SPI2X);
 }
@@ -38,15 +37,12 @@ void LCD_rotate(uint8_t rotation) {
             madctl_val = MADCTL_BGR;
             break;
         case 1: // Landscape (Top-Left Origin, Y increases DOWN)
-            // MV (0x20): Landscape mode
-            // MX (0x40): Set to 0 (No horizontal flip)
-            // MY (0x80): Set to 0 (No vertical flip)
             madctl_val = MADCTL_MV | MADCTL_BGR; // Total: 0x28
             break;
         case 2: // Portrait (Upside Down)
             madctl_val = MADCTL_MY | MADCTL_MX | MADCTL_BGR;
             break;
-        case 3: // Landscape (The "other" landscape)
+        case 3: // Landscape 
             madctl_val = MADCTL_MV | MADCTL_MY | MADCTL_MX | MADCTL_BGR;
             break;
     }
@@ -56,7 +52,7 @@ void LCD_rotate(uint8_t rotation) {
 void LCD_init(void) {
     SPI_Controller_Init();
 
-    // Hardware Reset [cite: 52]
+    // Hardware Reset
     clear(LCD_PORT, LCD_RST);
     _delay_ms(50);
     set(LCD_PORT, LCD_RST);
