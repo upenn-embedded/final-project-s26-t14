@@ -216,6 +216,9 @@ Some progress has been made for the project. Hardwares such as sensors, buttons,
 
 ### Small Demo Video
 
+https://github.com/user-attachments/assets/5197552b-4e00-474c-9d98-9eb454cab9fd
+
+https://github.com/user-attachments/assets/b98ebf85-277b-46e5-9fe6-23de1817a86f
 
 ### Software Requirements Specification (SRS)
 
