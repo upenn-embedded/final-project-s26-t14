@@ -255,19 +255,39 @@ On [GitHub Pages](https://upenn-embedded.github.io/final-project-s26-t14/)
 
 ### 3. Results
 
+Our final design comes in two parts:
+
+1. A laser-cut acrylic arcade box containing 2 AtMega328PB's, 2 LED segment displays, 1 GPIO extender, 1 LCD screen, 2 speakers, and connecting wires used to output game state. A LED strip is along the back board of the box for back lighting, featuring its own power bank, power module, and on/off switch.
+2. A 3D-printed turret gun with 2 push buttons, 1 IMU chip, and 2 rotary potentiometers as user input.
+
 #### 3.1 Software Requirements Specification (SRS) Results
 
 | ID     | Description                                                                                               | Validation Outcome                                                                          |
 | ------ | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | SRS-01 | The IMU 3-axis acceleration will be measured with 16-bit depth every 100 milliseconds +/-10 milliseconds. | Confirmed, logged output from the MCU is saved to "validation" folder in GitHub repository. |
+| SRS-02 |                                                                                                           |                                                                                             |
+| SRS-03 |                                                                                                           |                                                                                             |
+| SRS-04 |                                                                                                           |                                                                                             |
+| SRS-05 |                                                                                                           |                                                                                             |
+| SRS-06 |                                                                                                           |                                                                                             |
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
 | ID     | Description                                                                                                                        | Validation Outcome                                                                                                      |
 | ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | HRS-01 | A distance sensor shall be used for obstacle detection. The sensor shall detect obstacles at a maximum distance of at least 10 cm. | Confirmed, sensed obstacles up to 15cm. Video in "validation" folder, shows tape measure and logged output to terminal. |
-|        |                                                                                                                                    |                                                                                                                         |
+| HRS-02 |                                                                                                                                    |                                                                                                                         |
+| HRS-03 |                                                                                                                                    |                                                                                                                         |
+| HRS-04 |                                                                                                                                    |                                                                                                                         |
+| HRS-05 |                                                                                                                                    |                                                                                                                         |
+| HRS-06 |                                                                                                                                    |                                                                                                                         |
+| HRS-07 |                                                                                                                                    |                                                                                                                         |
+| HRS-08 |                                                                                                                                    |                                                                                                                         |
 
 ### 4. Conclusion
+
+We learned how to integrate across different timelines and people. For example, when Yi Lu first wrote the sound code, she didn't have the IMU or the game yet. When the sound code was passed to Amaris, Amaris had to package Yi Lu's code in sound.c library and ensured that it didn't use any pins/timers occupied by IMU polling. Finally, when Amaris passed that to Daniel, Daniel had to use a second AtMega for sound generation, in addition to changing the IMU polling to interrupts.
+
+We are proud to see this project through its many stages. Our final design was more than what we originally proposed as we added/repurposed sensors, and due to these hardware changes our game had to be more complicated. The fun of this project really came from sparking new ideas with one another and executing it as a team. Some next steps to this project could be: adding mini vibrational motor discs in the turret handles, having concurrent music during game play, and including more player/enemy spirites.
 
 ## References
