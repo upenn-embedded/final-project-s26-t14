@@ -1,5 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-Acvnhrq)
-
 # Final Project
 
 **Team Number:** T14
@@ -239,8 +237,8 @@ Yes, we have achieved some of our software requirements. SRS-01, 02, and 03 has 
 
 The other main element to the project is our 3D printed turret (require readjustments on dimensions) and laser cut casing (halfway complete at this stage).
 
-| 3D CAD Turret                               | Laser Cut Arcade Box |
-|---------------------------------------------|----------------------|
+| 3D CAD Turret                             | Laser Cut Arcade Box                             |
+| ----------------------------------------- | ------------------------------------------------ |
 | ![3Dturret](./image/README/turret3DCAD.png) | ![lasercut](./image/README/arcadeCaseLaserCut.png) |
 
 ### Riskiest Part Remaining
@@ -249,12 +247,11 @@ The riskiest part remaining is the integration of the hardware and software. The
 
 ## Final Report
 
-Don't forget to make the GitHub pages public website!
-If you’ve never made a GitHub pages website before, you can follow this webpage (though, substitute your final project repository for the GitHub username one in the quickstart guide):  [https://docs.github.com/en/pages/quickstart](https://docs.github.com/en/pages/quickstart)
-
 ### 1. Video
 
 ### 2. Images
+
+On [GitHub Pages](https://upenn-embedded.github.io/final-project-s26-t14/)
 
 ### 3. Results
 

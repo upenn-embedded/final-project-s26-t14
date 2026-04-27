@@ -6,6 +6,10 @@ The Mini Arcade Station features a simplified smash-TV shooting game with an ext
 
 ### 2. Images
 
+| ![whole setup](image/FR_whole.png)   | ![playerPOV](image/FR_playerPOV.png) |
+| ---------------------------------- | ---------------------------------- |
+| ![isometric](image/FR_isometric.png) | ![side](image/FR_side.png)           |
+
 ### 3. Results
 
 #### 3.1 Software Requirements Specification (SRS) Results
