@@ -44,50 +44,58 @@
     }
 
     /* LED strips */
-    body::before,
-    body::after {
-        content: "";
-        position: fixed;
-        top: 0;
-        width: 12px;
-        height: 100%;
-        z-index: 0;
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    width: 18px; /* slightly wider strip */
+    height: 100%;
+    z-index: 0;
 
-        background: repeating-linear-gradient(
+    /* Creates distinct LED blocks */
+    background: repeating-linear-gradient(
         to bottom,
-        #ff0000 0px,
-        #ff0000 8px,
-        transparent 8px,
-        transparent 16px
-        );
+        #ff2b2b 0px,
+        #ff2b2b 14px,
+        #ff6b6b 14px,
+        #ff6b6b 18px,
+        transparent 18px,
+        transparent 28px
+    );
 
-        box-shadow:
-        0 0 10px #ff0000,
-        0 0 20px #ff0000,
-        0 0 40px #ff0000;
+    /* Stronger glow for realistic LED effect */
+    box-shadow:
+        0 0 8px #ff0000,
+        0 0 16px #ff0000,
+        0 0 32px #ff0000,
+        0 0 48px #ff3333;
 
-        animation: ledPulse 1.5s infinite alternate;
-    }
+    border-radius: 8px;
 
-    body::before {
-        left: 0;
-    }
+    animation: ledPulse 1.2s infinite alternate;
+}
 
-    body::after {
-        right: 0;
-    }
+/* Left strip */
+body::before {
+    left: 0;
+}
 
-    @keyframes ledPulse {
-        from {
-        opacity: 0.6;
+/* Right strip */
+body::after {
+    right: 0;
+}
+
+@keyframes ledPulse {
+    from {
+        opacity: 0.85;
         filter: brightness(1);
-        }
-        to {
-        opacity: 1;
-        filter: brightness(1.8);
-        }
     }
-
+    to {
+        opacity: 1;
+        filter: brightness(2.2);
+    }
+}
     /* Keep content above LEDs */
     .container {
         position: relative;
@@ -101,12 +109,12 @@
     border-collapse: collapse;
     width: 100%;
     max-width: 1000px;
-    background: #020617;
+    background: #0f172a; 
     border-radius: 10px;
     overflow: hidden;
     }
 
-    /* Column sizing (this is the key fix) */
+    /* Column sizing */
     th:nth-child(1), td:nth-child(1) {
     width: 12%;
     text-align: center;
@@ -228,7 +236,7 @@
 <body>
 
 <div class="banner" data-aos="fade-down">
-  <h1>Mini Arcade Station</h1>
+  <h1>DoomsDAY - Mini Arcade Station @ UPenn</h1>
   <p>Daniel Lin, Amaris Chen, Yi Lu Zheng</p>
 
   <a href="https://github.com/upenn-embedded/final-project-s26-t14.git" 
@@ -244,7 +252,17 @@ The Mini Arcade Station features a simplified Smash-TV shooting game with an ext
 </p>
 
 <h2>1. Video</h2>
-<p>(Insert your video here)</p>
+
+<div class="center" data-aos="fade-up">
+  <iframe 
+    src="https://drive.google.com/file/d/1ZJHzxJwgp5Je9fS_rR9eMN1kFkbe_PmU/preview" 
+    width="800" 
+    height="450" 
+    allow="autoplay"
+    allowfullscreen
+    style="border: none; border-radius: 12px;">
+  </iframe>
+</div>
 
 <h2>2. Images</h2>
 
@@ -252,23 +270,31 @@ The Mini Arcade Station features a simplified Smash-TV shooting game with an ext
   <img src="image/website/FR_whole.png" width="640">
 </div>
 
-<br><br><br>
+<br>
 
 <div class="row center" data-aos="fade-up" data-aos-delay="100">
-  <img src="image/website/FR_playerPOV.png" width="208">
-  <img src="image/website/FR_side.png" width="208">
-  <img src="image/website/FR_top.png" width="208">
+  <img src="image/website/FR_playerPOV.png" width="200">
+  <img src="image/website/FR_side.png" width="200">
+  <img src="image/website/FR_top.png" width="200">
 </div>
 
-<br><br><br>
+<br>
 
 <div class="row center" data-aos="fade-up" data-aos-delay="200">
-  <img src="image/website/FR_gun.png" width="208">
-  <img src="image/website/FR_topGun.png" width="208">
-  <img src="image/website/FR_game.png" width="208">
+  <img src="image/website/FR_gun.png" width="200">
+  <img src="image/website/FR_topGun.png" width="200">
+  <img src="image/website/FR_game.png" width="200">
 </div>
 
-<br><br><br>
+<br>
+
+<h3>2.1 A 400x400 Image to Capture the Project</h3>
+
+<div class="center" data-aos="fade-up">
+  <img src="image/website/thumbnail.png" width="400">
+</div>
+
+<br>
 
 <h2>3. Results</h2>
 

@@ -249,6 +249,8 @@ The riskiest part remaining is the integration of the hardware and software. The
 
 ### 1. Video
 
+On [GitHub Pages](https://upenn-embedded.github.io/final-project-s26-t14/)
+
 ### 2. Images
 
 On [GitHub Pages](https://upenn-embedded.github.io/final-project-s26-t14/)
