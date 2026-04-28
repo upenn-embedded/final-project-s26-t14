@@ -6,6 +6,7 @@
 #include "HX8357.h"
 #include <string.h>
 #include <stdlib.h>
+#include <avr/pgmspace.h>
 
 static void LCD_fillSpan(uint16_t x0, uint16_t y, uint16_t x1, uint16_t color) {
     // Corrected boundary checks for HX8357 dimensions 
@@ -181,4 +182,58 @@ void LCD_drawCursor(uint16_t x, uint16_t y, uint16_t color) {
     // Vertical line (top to bottom)
     // Start at y-size and end at y+size, centered on x
     LCD_drawLine(x, y - size, x, y + size, color);
+}
+
+//void LCD_drawSprite(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint16_t* bitmap) {
+//    // 1. Boundary Check
+//    if ((x + w) > LCD_WIDTH || (y + h) > LCD_HEIGHT) return;
+//
+//    // 2. Set the address window to the size of the sprite
+//    LCD_setAddr(x, y, x + w - 1, y + h - 1);
+//
+//    // 3. Prepare to send pixel data
+//    clear(LCD_PORT, LCD_TFT_CS);
+//    set(LCD_PORT, LCD_DC);
+//
+//    // 4. Stream the array from Flash
+//    for (uint32_t i = 0; i < (uint32_t)w * h; i++) {
+//        // MUST use &bitmap[i] to get the address in Flash
+//        uint16_t color = pgm_read_word(&(bitmap[i])); 
+//        
+//        // HX8357 expects High Byte first
+//        SPI_ControllerTx_stream((uint8_t)(color >> 8));   
+//        SPI_ControllerTx_stream((uint8_t)(color & 0xFF)); 
+//    }
+//
+//    set(LCD_PORT, LCD_TFT_CS);
+//}
+
+void LCD_drawSprite(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint16_t* bitmap) {
+    // 1. Calculate top-left origin based on center (x, y)
+    // We use int32_t for a moment to prevent underflow if (x - w/2) is negative
+    int32_t x_origin = (int32_t)x - (w / 2);
+    int32_t y_origin = (int32_t)y - (h / 2);
+
+    // 2. Boundary Check (Don't draw if the sprite is completely off-screen)
+    if (x_origin < 0 || y_origin < 0 || 
+       (x_origin + w) > LCD_WIDTH || (y_origin + h) > LCD_HEIGHT) return;
+
+    // 3. Set the address window using the calculated origin
+    LCD_setAddr((uint16_t)x_origin, (uint16_t)y_origin, 
+                (uint16_t)x_origin + w - 1, (uint16_t)y_origin + h - 1);
+
+    // 4. Prepare to send pixel data
+    clear(LCD_PORT, LCD_TFT_CS);
+    set(LCD_PORT, LCD_DC);
+
+    // 5. Stream the array from Flash
+    uint32_t total_pixels = (uint32_t)w * h;
+    for (uint32_t i = 0; i < total_pixels; i++) {
+        uint16_t color = pgm_read_word(&(bitmap[i])); 
+        
+        SPI_ControllerTx_stream((uint8_t)(color >> 8));   
+        SPI_ControllerTx_stream((uint8_t)(color & 0xFF)); 
+    }
+
+    set(LCD_PORT, LCD_TFT_CS);
 }

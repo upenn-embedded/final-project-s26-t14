@@ -3,12 +3,17 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-//#include "ST7735.h"
 #include "HX8357.h"
 #include "LCD_GFX.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "sprites.h"
+#include "aw9523.h"
+#include "i2c.h"
+#include "uart.h"
+#include "imu.h"
+#include "sound.h"
 
 
 /* Structs */
@@ -17,7 +22,6 @@ typedef struct Player {
     int ypos;
     int size;
     int health;
-    uint16_t color;
 } Player;
 
 typedef struct Enemy {
@@ -35,8 +39,9 @@ typedef struct Enemy {
 #define yp PC1
 #define xdim LCD_WIDTH // change xdim & ydim based on the size of the screen
 #define ydim LCD_HEIGHT
-#define maxEnemy 5
-#define ammoCount 3
+#define maxEnemy 8 // 5 * 10 round
+#define ammoCount 10
+#define healthCount 6
 
 Player player;
 Enemy enemies[maxEnemy];
@@ -44,8 +49,14 @@ int cursorX;
 int cursorY;
 volatile int game_started = 0;
 volatile int shoot_pressed = 0;
-uint8_t ammo_pins[ammoCount] = {PORTD3, PORTD4, PORTD5};
-int ammo;
+volatile int shaken = 0; 
+//uint8_t ammo_pins[ammoCount] = {PORTD5, PORTD4, PORTD3};
+//uint8_t health_pins[healthCount] = {PORTD5, PORTD4, PORTD3};
+volatile int ammo;
+int gameRound = 1;
+int enemiesDead = 0;
+int changeRound = 0;
+volatile int blinded = 0;
 
 
 ISR(INT0_vect) {
@@ -53,6 +64,22 @@ ISR(INT0_vect) {
         game_started = 1; // Set flag when button is pressed
     } else {
         shoot_pressed = 1;
+    }
+}
+
+ISR(INT1_vect) {
+    if (game_started) {
+        ammo = ammoCount;
+    }
+}
+
+ISR(PCINT1_vect) {
+    // Only trigger if the pin is currently HIGH (the start of the pulse)
+    if (PINC & (1 << PC3)) {
+        if (blinded) {
+            shaken = 1;
+            printf("SHAKEN!!!");
+        }
     }
 }
 
@@ -70,96 +97,109 @@ void ADC_Init()
 void player_init() {
     player.xpos = xdim / 2;
     player.ypos = ydim / 2;
-    player.size = 12;
-    player.color = 0x0000;
-    player.health = 3;
+    player.size = 30;
+    player.health = healthCount;
 
-    LCD_drawCircle(player.xpos, player.ypos, player.size, player.color);
+    LCD_drawSprite(player.xpos, player.ypos, player.size, player.size, player_sprite);
 }
 
 void cursor_init() {
     cursorX = xdim/2;
     cursorY = ydim/2;
-//    LCD_drawChar_Transparent(cursorX, cursorY, '+', RED);
+
     LCD_drawCursor(cursorX, cursorY, RED);
 }
 
+
 void enemy_init() {
-//    enemy.xpos = 50;
-//    enemy.ypos = 50;
-//    enemy.size = 20;
-//    enemy.isAlive = 1;
-//    enemy.color = BLUE;
-//    LCD_drawBlock(enemy.xpos - (enemy.size/2), enemy.ypos - (enemy.size/2), enemy.xpos + (enemy.size/2), enemy.ypos + (enemy.size/2), enemy.color);
       for (int i = 0; i < maxEnemy; i++) {
-//        enemies[i].isAlive = 0;
-        enemies[i].xpos = 50;
-        enemies[i].ypos = 50;
-        enemies[i].size = 20;
+        enemies[i].xpos = (rand() % xdim - 60 + 1) + 30;
+        enemies[i].ypos = (rand() % ydim - 60 + 1) + 30;
+        while (enemies[i].xpos >= (xdim / 2) - 30 && enemies[i].xpos <= (xdim / 2) + 30 && enemies[i].ypos >= (ydim / 2) - 30 && enemies[i].ypos <= (ydim / 2) + 30) {
+            enemies[i].xpos = (rand() % xdim - 60 + 1) + 30;
+            enemies[i].ypos = (rand() % ydim - 60 + 1) + 30;
+        }
+        enemies[i].size = 30;
+        enemies[i].vx = 0;
+        enemies[i].vy = 0;
         enemies[i].isAlive = 1;
         enemies[i].color = BLUE;
-        LCD_drawBlock(enemies[i].xpos - (enemies[i].size/2), enemies[i].ypos - (enemies[i].size/2), enemies[i].xpos + (enemies[i].size/2), enemies[i].ypos + (enemies[i].size/2), enemies[i].color);
+
+        LCD_drawSprite(enemies[i].xpos, enemies[i].ypos, enemies[i].size, enemies[i].size, enemy_sprite);
       }
 }
 
 void button_init(void) {
     // Set PD2 as input
-    DDRD &= ~(1 << DDD2);
-    // Enable internal pull-up (This is why we connect button to GND)
+    DDRD &= ~(1 << PD2);
+    DDRD &= ~(1 << PD3);
+
+    // Enable internal pull-up
     PORTD |= (1 << PORTD2);
+    PORTD |= (1 << PORTD3);
     
     // Configure INT0 to trigger on Falling Edge (High to Low)
     // ISC01 = 1, ISC00 = 0 in EICRA register
     EICRA |= (1 << ISC01);
+    EICRA |= (1 << ISC11);
     EICRA &= ~(1 << ISC00);
+    EICRA &= ~(1 << ISC10);
     
     // Enable the INT0 external interrupt mask
     EIMSK |= (1 << INT0);
+    EIMSK |= (1 << INT1);
     
     // TURN ON GLOBAL INTERRUPTS
     sei(); 
 }
 
-//void spawn_enemy(int playerX, int playerY) {
-//    for (int i = 0; i < maxEnemy; i++) {
-//        if (!enemies[i].isAlive) {
-//            enemies[i].isAlive = 1;
-//            enemies[i].size = 20;
-//            enemies[i].color = BLUE;
-//
-//            // Pick a random side: 0=Top, 1=Bottom, 2=Left, 3=Right
-//            int side = rand() % 4;
-//            if (side == 0) { enemies[i].xpos = rand() % LCD_WIDTH; enemies[i].ypos = 0; }
-//            else if (side == 1) { enemies[i].xpos = rand() % LCD_WIDTH; enemies[i].ypos = LCD_HEIGHT; }
-//            else if (side == 2) { enemies[i].xpos = 0; enemies[i].ypos = rand() % LCD_HEIGHT; }
-//            else { enemies[i].xpos = LCD_WIDTH; enemies[i].ypos = rand() % LCD_HEIGHT; }
-//            
-//            // Calculate simple velocity toward player
-//            enemies[i].vx = (enemies[i].xpos < playerX) ? 3 : -3;
-//            enemies[i].vy = (enemies[i].ypos < playerY) ? 3 : -3;
-//            
-//            return; // Only spawn one at a time
-//        }
-//    }
-//}
+void imu_init() {
+    // 1. WAKE UP: Register 0x6B (PWR_MGMT_1) -> 0x00
+    
+    i2c_writeRegister(MPU6050_ADDR, 0x6B, 0x01); // 0x01 instead of 0x00
 
-void led_init(void) {
-    // Set ammo pins as outputs
-    for (int i = 0; i < ammoCount; i++) {
-        DDRD |= (1 << ammo_pins[i]);
-    }
+    // 2. CONFIG MOTION: Register 0x1F (Threshold), 0x20 (Duration)
+    i2c_writeRegister(MPU6050_ADDR, 0x1F, 35);
+    i2c_writeRegister(MPU6050_ADDR, 0x20, 5);  // 5ms duration
+    
+    // 2.5 ACCEL CONFIG (The "Tilt" Secret)
+    // 0x02 sets a 1.25Hz High Pass Filter - better for detecting slower swaying
+    i2c_writeRegister(MPU6050_ADDR, 0x1C, 0x02);
+
+    // 3. INT PIN CFG: Register 0x37 
+    // Set to 0x00: Active High, Push-Pull, 50us Pulse (No latching)
+    // This is better for PCINT because it returns to 0 automatically.
+    i2c_writeRegister(MPU6050_ADDR, 0x37, 0x00); 
+
+    // 4. ENABLE INT: Register 0x38 -> 0x40 (Motion Enable)
+    i2c_writeRegister(MPU6050_ADDR, 0x38, 0x40);
+
+    // 5. AVR PCINT SETUP (PC3 / PCINT11)
+    DDRC &= ~(1 << PC3);    // Input
+    PORTC &= ~(1 << PC3);   
+    
+    PCMSK1 |= (1 << PCINT11);
+    PCICR  |= (1 << PCIE1);
+    
+    sei(); 
 }
 
 void game_init() {
     LCD_setScreen(WHITE);
-    ADC_Init();
     ammo = ammoCount;
 
-    led_init();
     player_init();
     cursor_init();
     enemy_init();
-//    spawn_enemy(player.xpos, player.ypos);
+}
+
+void restart_round() {
+    LCD_setScreen(WHITE);
+    ammo = ammoCount;
+
+    player_init();
+    cursor_init();
+    enemy_init();
 }
 
 void start_init() {
@@ -167,6 +207,18 @@ void start_init() {
     
     LCD_drawString(160, 150, "doomsDAY", WHITE, BLACK);
     LCD_drawString(160, 250, "PRESS BUTTON TO START", WHITE, BLACK);
+}
+
+void end_screen() {
+    LCD_setScreen(BLACK);
+    
+    LCD_drawString(240, 160, "You lost :(", WHITE, BLACK);
+}
+
+void change_round_screen(char text[]) {
+    LCD_setScreen(BLACK);
+    
+    LCD_drawString(230, 160, text, WHITE, BLACK);
 }
 
 int ADC_Read(char channel)
@@ -187,145 +239,226 @@ int ADC_Read(char channel)
 }
 
 void update_player() {
-    // TODO
-    LCD_drawCircle(player.xpos, player.ypos, player.size, player.color);
+    if (!blinded) {
+        LCD_drawSprite(player.xpos, player.ypos, player.size, player.size, player_sprite);
+    }
+    if (player.health == 0 && game_started) {
+        game_started = 0;
+    }
 }
 
-//void update_enemy() {
-//    int half = enemy.size / 2;
-//    
-//    if (enemy.isAlive) {
-//        // 1. Erase the OLD position BEFORE updating coordinates
-//        // Use a slightly larger block (half + 1) to ensure no "streaks" are left
-//        LCD_drawBlock(enemy.xpos - half, enemy.ypos - half, 
-//                      enemy.xpos + half, enemy.ypos + half, 0xFFFF);
-//
-//        // 2. Update movement logic
-//        if (rand() % 20 == 0) {
-//            enemy.vx = (rand() % 7) - 3; 
-//            enemy.vy = (rand() % 7) - 3;
-//        }
-//
-//        enemy.xpos += enemy.vx;
-//        enemy.ypos += enemy.vy;
-//
-//        // 3. Boundary Check (using the new 320x480 dimensions)
-//        if (enemy.xpos < half) { enemy.xpos = half; enemy.vx = -enemy.vx; }
-//        if (enemy.xpos > (LCD_WIDTH - half)) { enemy.xpos = LCD_WIDTH - half; enemy.vx = -enemy.vx; }
-//        if (enemy.ypos < half) { enemy.ypos = half; enemy.vy = -enemy.vy; }
-//        if (enemy.ypos > (LCD_HEIGHT - half)) { enemy.ypos = LCD_HEIGHT - half; enemy.vy = -enemy.vy; }
-//
-//        // 4. Draw new position
-//        LCD_drawBlock(enemy.xpos - half, enemy.ypos - half, 
-//                      enemy.xpos + half, enemy.ypos + half, enemy.color);
-//    }
-//}
+void play_shoot_sound() {
+    PORTD &= ~(1 << PD4);
+    _delay_ms(20);
+    PORTD |= (1 << PD4);
+}
+
+void play_enemy_death_sound() {
+    PORTD |= (1 << PD7);
+    _delay_ms(20);
+    PORTD &= ~(1 << PD7);
+}
+
+
 
 void update_enemies() {
+    int count = 0;
     for (int i = 0; i < maxEnemy; i++) {
         int half = enemies[i].size / 2;
     
         if (enemies[i].isAlive) {
-            // 1. Erase the OLD position BEFORE updating coordinates
-            // Use a slightly larger block (half + 1) to ensure no "streaks" are left
-            LCD_drawBlock(enemies[i].xpos - half, enemies[i].ypos - half, 
-                          enemies[i].xpos + half, enemies[i].ypos + half, 0xFFFF);
-
-            // 2. Update movement logic
+            int oldX = enemies[i].xpos;
+            int oldY = enemies[i].ypos;
+            
+            // Update movement logic
             if (rand() % 20 == 0) {
-                enemies[i].vx = (rand() % 7) - 3; 
-                enemies[i].vy = (rand() % 7) - 3;
+                enemies[i].vx = ((rand() % 7) - 3) * gameRound; 
+                enemies[i].vy = ((rand() % 7) - 3) * gameRound;
             }
 
             enemies[i].xpos += enemies[i].vx;
             enemies[i].ypos += enemies[i].vy;
+            
+            if ((enemies[i].xpos - half >= player.xpos - (player.size / 2)  && 
+                 enemies[i].xpos - half <= player.xpos + (player.size / 2)  &&
+                 enemies[i].ypos - half >= player.ypos - (player.size / 2)  &&
+                 enemies[i].ypos - half <= player.ypos + (player.size / 2)) ||
+                (enemies[i].xpos + half >= player.xpos - (player.size / 2)  && 
+                 enemies[i].xpos + half <= player.xpos + (player.size / 2)  &&
+                 enemies[i].ypos - half >= player.ypos - (player.size / 2)  &&
+                 enemies[i].ypos - half <= player.ypos + (player.size / 2)) ||
+                (enemies[i].xpos - half >= player.xpos - (player.size / 2)  && 
+                 enemies[i].xpos - half <= player.xpos + (player.size / 2)  &&
+                 enemies[i].ypos + half >= player.ypos - (player.size / 2)  &&
+                 enemies[i].ypos + half <= player.ypos + (player.size / 2)) ||
+                (enemies[i].xpos + half >= player.xpos - (player.size / 2)  && 
+                 enemies[i].xpos + half <= player.xpos + (player.size / 2)  &&
+                 enemies[i].ypos + half >= player.ypos - (player.size / 2)  &&
+                 enemies[i].ypos + half <= player.ypos + (player.size / 2))) 
+            {
+                // Nudge the enemy back to the old position so they don't get stuck "inside" the player
+                enemies[i].xpos = oldX;
+                enemies[i].ypos = oldY;
+                
+                // BOUNCE: Reverse the enemy's velocity
+                enemies[i].vx = -enemies[i].vx;
+                enemies[i].vy = -enemies[i].vy;
+                
+                player.health--;
+            }
 
-            // 3. Boundary Check (using the new 320x480 dimensions)
-            if (enemies[i].xpos < half) { enemies[i].xpos = half; enemies[i].vx = -enemies[i].vx; }
-            if (enemies[i].xpos > (LCD_WIDTH - half)) { enemies[i].xpos = LCD_WIDTH - half; enemies[i].vx = -enemies[i].vx; }
-            if (enemies[i].ypos < half) { enemies[i].ypos = half; enemies[i].vy = -enemies[i].vy; }
-            if (enemies[i].ypos > (LCD_HEIGHT - half)) { enemies[i].ypos = LCD_HEIGHT - half; enemies[i].vy = -enemies[i].vy; }
+            // Boundary Checks
+            
+            // Left and Right walls
+            if (enemies[i].xpos < half) { 
+                enemies[i].xpos = half; 
+                enemies[i].vx = -enemies[i].vx; 
+            }
+            if (enemies[i].xpos + half > LCD_WIDTH) { 
+                // Bounce when the RIGHT edge hits the wall
+                enemies[i].xpos = LCD_WIDTH - half; 
+                enemies[i].vx = -enemies[i].vx; 
+            }
 
-            // 4. Draw new position
-            LCD_drawBlock(enemies[i].xpos - half, enemies[i].ypos - half, 
-                          enemies[i].xpos + half, enemies[i].ypos + half, enemies[i].color);
+            // Top and Bottom walls
+            if (enemies[i].ypos < half) { 
+                enemies[i].ypos = half; 
+                enemies[i].vy = -enemies[i].vy; 
+            }
+            if (enemies[i].ypos + half > LCD_HEIGHT) { 
+                // Bounce when the BOTTOM edge hits the wall (LCD_HEIGHT - 30)
+                enemies[i].ypos = LCD_HEIGHT - half; 
+                enemies[i].vy = -enemies[i].vy; 
+            }
+            
+            if (!blinded) {
+                // Erase old position
+                LCD_drawSprite(oldX, oldY, enemies[i].size, enemies[i].size, white_sprite);
+
+                // Draw new position
+                LCD_drawSprite(enemies[i].xpos, enemies[i].ypos, enemies[i].size, enemies[i].size, enemy_sprite);
+            }
+        } else {
+            count++;
         }
     }
+    
+    enemiesDead = count;
+    
+    if (enemiesDead == maxEnemy) {
+        changeRound = 1;
+    }
 }
-
-//void update_enemies(int pX, int pY) {
-//    for (int i = 0; i < maxEnemy; i++) {
-//        if (enemies[i].isAlive) {
-//            int half = enemies[i].size / 2;
-//            
-//            // 1. Erase
-//            LCD_drawBlock(enemies[i].xpos - half, enemies[i].ypos - half, 
-//                          enemies[i].xpos + half, enemies[i].ypos + half, WHITE);
-//
-//            // 2. Move toward player (Simple tracking)
-//            enemies[i].xpos += enemies[i].vx;
-//            enemies[i].ypos += enemies[i].vy;
-//
-//            // 3. Draw
-//            LCD_drawBlock(enemies[i].xpos - half, enemies[i].ypos - half, 
-//                          enemies[i].xpos + half, enemies[i].ypos + half, enemies[i].color);
-//            
-//            // 4. Check for "Game Over" (Enemy touches player)
-//            if (abs(enemies[i].xpos - pX) < 10 && abs(enemies[i].ypos - pY) < 10) {
-//                game_started = 0; // Trigger reset/game over
-//            }
-//        }
-//    }
-//}
 
 void kill_enemy(Enemy *en){
     en->isAlive = 0;
     int half = en->size / 2;
+    int blindChance = (rand() % 10) + 1;
     
     // Turn Red to indicate death
     LCD_drawBlock(en->xpos - half, en->ypos - half, 
                       en->xpos + half, en->ypos + half, RED);
     
     // Erase
-    
     LCD_drawBlock(en->xpos - half, en->ypos - half, 
                       en->xpos + half, en->ypos + half, 0xFFFF);
     
+    if (blindChance == 6) {
+        blinded = 1;
+    }
+    
 }
 
+// Cursor controlled by joystick
+//void update_cursor() {
+//    // Erase using the background color (WHITE)
+//    if (!blinded) {
+//        LCD_drawCursor(cursorX, cursorY, 0xFFFF);
+//    }
+//
+//    int xval = ADC_Read(0);
+//    int yval = ADC_Read(1);
+//    
+//    // Increased speed for the larger screen
+//    if (xval >= 800) cursorX += 8; 
+//    else if (xval <= 400) cursorX -= 8;
+//
+//    if (yval >= 800) cursorY += 8;
+//    else if (yval <= 400) cursorY -= 8;
+//
+//    // Bounds checking
+//    if (cursorX < 0) cursorX = 0;
+//    if (cursorX > (xdim - 6)) cursorX = xdim - 6; 
+//    if (cursorY < 0) cursorY = 0;
+//    if (cursorY > (ydim - 8)) cursorY = ydim - 8;
+//
+//    // Draw the NEW cursor
+//    if (!blinded) {
+//        LCD_drawCursor(cursorX, cursorY, RED);
+//    }
+//}
+
+
+//// Cursor Controlled by Pot
 void update_cursor() {
-    // 1. Erase using the background color (WHITE)
+    // Erase the old cursor using the background color
     LCD_drawCursor(cursorX, cursorY, 0xFFFF);
 
-    int xval = ADC_Read(0);
-    int yval = ADC_Read(1);
-    
-    // Increased speed for the larger screen
-    if (xval >= 800) cursorX += 8; 
-    else if (xval <= 400) cursorX -= 8;
+    // Read Potentiometers
+    uint16_t xval = ADC_Read(0); 
+    uint16_t yval = ADC_Read(1); 
+    printf("x val: %d", xval);
+    printf("y val: %d", yval);
 
-    if (yval >= 800) cursorY += 8;
-    else if (yval <= 400) cursorY -= 8;
+    // Map 0-1023 to Screen Dimensions
+    cursorX = (uint32_t) (xval - 230) * (LCD_WIDTH - 1) / (530 - 230);
+    cursorY = (uint32_t) (yval - 380) * (LCD_HEIGHT - 1) / (625-380);
 
-    // Corrected bounds for 320x480 screen
-    if (cursorX < 0) cursorX = 0;
-    if (cursorX > (xdim - 6)) cursorX = xdim - 6; 
-    if (cursorY < 0) cursorY = 0;
-    if (cursorY > (ydim - 8)) cursorY = ydim - 8;
+    // Boundary Safety
+    if (cursorX < 5) cursorX = 5;
+    if (cursorX > (LCD_WIDTH - 6)) cursorX = LCD_WIDTH - 6; 
+    if (cursorY < 5) cursorY = 5;
+    if (cursorY > (LCD_HEIGHT - 6)) cursorY = LCD_HEIGHT - 6;
 
-    // 4. Draw the NEW cursor
+    // Draw the NEW cursor
     LCD_drawCursor(cursorX, cursorY, RED);
 }
 
-void update_ammo_leds() {
-    for (int i = 1; i < ammoCount + 1; i++) {
-        if (i <= ammo) {
-            // Turn ON LED (High)
-            PORTD |= (1 << ammo_pins[i]);
+void update_health_leds() {
+    for (int i = 0; i < healthCount; i++) {
+        if (i + 1 <= player.health) {
+            set_led(i, 1);
         } else {
-            // Turn OFF LED (Low)
-            PORTD &= ~(1 << ammo_pins[i]);
+            set_led(i, 0);
         }
+    }
+}
+
+void update_ammo_leds() {
+    for (int i = 0; i < ammoCount; i++) {
+        if (i + 1 <= ammo) {
+
+            set_led(i + 6, 1);
+        } else {
+            set_led(i + 6, 0);
+        }
+    }
+}
+
+void update_blinded_screen() {
+    if (blinded) {
+        LCD_setScreen(GREEN);
+    
+        LCD_drawString(160, 160, "YOU HAVE BEEN BLINDED! SHAKE TO SEE AGAIN!!", WHITE, BLACK);
+    }
+    if (shaken) {
+        blinded = 0;
+        shaken = 0;
+        
+        uint8_t dummy;
+        i2c_readCompleteStream(&dummy, MPU6050_ADDR, 0x3A, 1);
+        
+        LCD_setScreen(WHITE);
     }
 }
 
@@ -340,9 +473,20 @@ uint8_t check_hit(uint16_t curX, uint16_t curY, uint16_t enX, uint16_t enY, uint
 }
 
 int main(void) {
-    // TODO
     LCD_init();
+    ADC_Init();
     button_init();
+    uart_init();
+    i2c_init();
+    printf("Status: %d", aw9523_init());
+    imu_init();
+//    DDRD |= (1 << DDD4); // setup up PD4 as output (for speaker)
+    DDRD |= (1 << DDD0); // second sound
+
+    PORTD &= ~(1 << PD7);
+    DDRC |= (1 << DDC2);
+    PORTC &= ~(1 << PC2);
+    
     
     while(1) {
         start_init();
@@ -351,22 +495,50 @@ int main(void) {
         game_init();
         
         while (game_started) {
+            
             update_player();
+            update_health_leds();
             update_cursor();
-//            update_enemy();
             update_enemies(player.xpos, player.ypos);
-            if (shoot_pressed) {
+            if (shoot_pressed && ammo > 0) {
+                PORTC |= (1 << PC2);
                 for (int i = 0; i < maxEnemy; i++) {
                     if (enemies[i].isAlive && check_hit(cursorX, cursorY, enemies[i].xpos, enemies[i].ypos, enemies[i].size)) {
                         kill_enemy(&enemies[i]); // Pass pointer to specific enemy
                         break; // One shot, one kill
                     }
                 }
-//                ammo--;
+
+                PORTC &= ~(1 << PC2);
+                ammo--;
                 shoot_pressed = 0;
             }
             update_ammo_leds();
+            
+            update_blinded_screen();
+            
+            if (changeRound) {
+                gameRound++;
+                char roundStringResult[30];
+                snprintf(roundStringResult, sizeof(roundStringResult), "Round %d", gameRound);
+
+                
+                change_round_screen(roundStringResult);
+                _delay_ms(1000);
+                
+                changeRound = 0;
+                LCD_setScreen(WHITE);
+                cursor_init();
+                player_init();
+                enemy_init();
+            }
+            
             _delay_ms(20);
         }
+        
+        end_screen();
+        _delay_ms(1000); 
+        game_started = 0;
+        gameRound = 1;
     }
 }
