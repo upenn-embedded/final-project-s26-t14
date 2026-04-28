@@ -141,7 +141,7 @@ uint8_t i2c_readStream(uint8_t *buf, uint16_t len)
  
         TWCR0 = is_last ? TWCR_SEND : TWCR_ACK;
         twi_wait();
- 
+  
         uint8_t st = twi_status();
         uint8_t expected = is_last ? TW_MR_DATA_NACK : TW_MR_DATA_ACK;
         if (st != expected) {

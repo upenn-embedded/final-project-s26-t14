@@ -11,6 +11,24 @@
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
   <style>
+    .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    }
+
+    .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* controls horizontal spacing */
+    flex-wrap: wrap; /* allows wrapping on smaller screens */
+    width: 100%;
+    margin: 0 auto;
+    }
+
     body {
         font-family: 'JetBrains Mono', monospace;
         background: #0f172a;
@@ -231,23 +249,23 @@ The Mini Arcade Station features a simplified Smash-TV shooting game with an ext
 <h2>2. Images</h2>
 
 <div class="center" data-aos="fade-up">
-  <img src="docs/image/README/FR_whole.png" width="640">
+  <img src="image/website/FR_whole.png" width="640">
 </div>
 
 <br><br><br>
 
-<div class="row" data-aos="fade-up" data-aos-delay="100">
-  <img src="docs/image/README/FR_playerPOV.png" width="208">
-  <img src="docs/image/README/FR_side.png" width="208">
-  <img src="docs/image/README/FR_top.png" width="208">
+<div class="row center" data-aos="fade-up" data-aos-delay="100">
+  <img src="image/website/FR_playerPOV.png" width="208">
+  <img src="image/website/FR_side.png" width="208">
+  <img src="image/website/FR_top.png" width="208">
 </div>
 
 <br><br><br>
 
-<div class="row" data-aos="fade-up" data-aos-delay="200">
-  <img src="docs/image/README/FR_gun.png" width="208">
-  <img src="docs/image/README/FR_topGun.png" width="208">
-  <img src="docs/image/README/FR_game.png" width="208">
+<div class="row center" data-aos="fade-up" data-aos-delay="200">
+  <img src="image/website/FR_gun.png" width="208">
+  <img src="image/website/FR_topGun.png" width="208">
+  <img src="image/website/FR_game.png" width="208">
 </div>
 
 <br><br><br>
@@ -277,7 +295,7 @@ The Mini Arcade Station features a simplified Smash-TV shooting game with an ext
   <tr>
     <td>SRS-01</td>
     <td>The IMU built-in interrupt pin shall be used to detect shock on the turret.</td>
-    <td>Confirmed, UART logs in validation folder in GitHub repo</td>
+    <td>Confirmed, game shown in video</td>
   </tr>
 
   <tr>
@@ -288,14 +306,14 @@ The Mini Arcade Station features a simplified Smash-TV shooting game with an ext
 
   <tr>
     <td>SRS-03</td>
-    <td>Potentiometer values shall be read via ADC and tunned according to the screen size</td>
+    <td>Potentiometer values shall be read via ADC and tuned according to the screen size</td>
     <td>Confirmed, UART logs in validation folder in GitHub repo</td>
   </tr>
 
   <tr>
     <td>SRS-04</td>
     <td>I2C communication shall be used for the GPIO pin extender to control LED segments and display health and ammo</td>
-    <td>Confirmed, segments turn on and off based on user interactions</td>
+    <td>Confirmed, testing code in validation folder in GitHub repo</td>
   </tr>
 
   <tr>
@@ -312,6 +330,7 @@ The Mini Arcade Station features a simplified Smash-TV shooting game with an ext
 </table>
 
 <h3>3.2 Hardware Requirements Specification (HRS) Results</h3>
+<p>All hardware requirements specifications can be observed from images under the Image section or the video under the Video section.</p>
 
 <table data-aos="fade-up">
   <tr>
