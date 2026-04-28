@@ -296,3 +296,9 @@ We learned how to integrate across different timelines and people. For example, 
 We are proud to see this project through its many stages. Our final design was more than what we originally proposed as we added/repurposed sensors, and due to these hardware changes our game had to be more complicated. The fun of this project really came from sparking new ideas with one another and executing it as a team. Some next steps to this project could be: adding mini vibrational motor discs in the turret handles, having concurrent music during game play, and including more player/enemy spirites.
 
 ## References
+
+I2C references:
+
+    https://github.com/YifanJiangPolyU/MPU6050/tree/master
+
+    https://github.com/Sovichea/avr-i2c-library/tree/master/twi
