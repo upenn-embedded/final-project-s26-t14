@@ -7,19 +7,19 @@ The Mini Arcade Station features a simplified smash-TV shooting game with an ext
 ### 2. Images
 
 <p align="center">
-  <img src="image/FR_whole.png" alt="whole setup" width="660">
+  <img src="image/FR_whole.png" alt="whole setup" width="640">
 </p>
 
 <p align="center">
-  <img src="image/README/FR_playerPOV.png" alt="player pov" width="210">
-  <img src="image/README/FR_side.png" alt="side" width="210">
-  <img src="image/README/FR_top.png" alt="top" width="210">
+  <img src="image/README/FR_playerPOV.png" alt="player pov" width="208">
+  <img src="image/README/FR_side.png" alt="side" width="208">
+  <img src="image/README/FR_top.png" alt="top" width="208">
 </p>
 
 <p align="center">
-  <img src="image/README/FR_gun.png" alt="gun" width="210">
-  <img src="image/README/FR_topGun.png" alt="top gun" width="210">
-  <img src="image/README/FR_game.png" alt="game" width="210">
+  <img src="image/README/FR_gun.png" alt="gun" width="208">
+  <img src="image/README/FR_topGun.png" alt="top gun" width="208">
+  <img src="image/README/FR_game.png" alt="game" width="208">
 </p>
 
 ### 3. Results
